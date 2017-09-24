@@ -1,0 +1,24 @@
+/* Flexible Returns Authorization (RMA) CSS*/
+
+
+div#returnAddressWrapper {
+border:1px solid #E9E9E9;
+background:#FFE573;text-align:center;
+} 
+
+div#returnSuccess {
+font-size:1.2em;
+padding:5px;
+color:#606060;
+} 
+
+div#returnAddressWrapper, div#returnRequired, div#returnPolicy, div#returnRMA, div#returnAddress, div#returnPhone {
+font-size:1.5em;
+font-weight:bold;
+padding:5px; 
+} 
+
+div#returnRequired, div#returnAddress {
+color:#FF0000;
+}
+

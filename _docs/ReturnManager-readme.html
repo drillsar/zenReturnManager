@@ -1,0 +1,358 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+  <meta name="ROBOTS" content="nofollow,noindex">  
+  <meta name="ROBOTS" content="noarchive">  
+  <meta http-equiv="pragma" content="no-cache">  
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">  
+  <meta http-equiv="content-language" content="en">  
+  <meta name="description" content="Zen Return Manager as Return and Cancel manager for Zen Cart 1.5.5e">
+  <title>Zen Return Manager 1.0</title>
+     
+       <script type="text/javascript" src="includes/jscript/jquery-3.1.1.min.js"></script> 
+     <script type="text/javascript" src="includes/jscript/jscript_tabs.js"></script>
+     
+  <link rel="stylesheet" type="text/css" href="includes/css/stylesheet.css">  
+  <link rel="stylesheet" href="includes/css/colorbox.css" />
+		<script src="includes/jscript/jquery.colorbox.js"></script>
+<script language="javascript" type="text/javascript">
+ 
+jQuery(function($) {
+	$("a[rel^='colorbox']").colorbox({opacity:0.6,speed:400,initialWidth:640,initialHeight:390,overlayClose:true,loop:true,slideshow:true,slideshowAuto:true,slideshowSpeed:2500,slideshowStart:"Play",slideshowStop:"Stop",current: "{current} of {total}", onComplete:function(){ wheelzoom(document.querySelectorAll('.cboxPhoto')); }});;
+
+});
+
+</script>
+		
+  </head>
+  <body>    
+<div id="wrapper">
+<h2>Zen Return Manager 1.0</h2>
+<h3>Designed to work with COWAA can also work without - Check Out With Any Account (COWAA)</h3>
+<!-- Not done yet -->
+<p>Support thread: <a href="http://www.zen-cart.com/showthread.php?" target="_blank">http://www.zen-cart.com/showthread.php</a><br />
+Download link: <a href="https://www.zen-cart.com/downloads.php" target="_blank">https://www.zen-cart.com/downloads.php</a></p>  
+
+<div id="slidetabsmenu" style="display: none;">
+<ul>
+  <li> <a onClick="expandcontent('sc1', this)" href="javascript:void(0)"><span>Purpose </span></a></li>
+  <li> <a onClick="expandcontent('sc2', this)" href="javascript:void(0)"><span>Installation</span></a></li>
+  <li> <a onClick="expandcontent('sc3', this)" href="javascript:void(0)"><span>How to Use</span></a></li>
+  <li> <a onClick="expandcontent('sc4', this)" href="javascript:void(0)"><span>Photos</span></a></li>
+  <li> <a onClick="expandcontent('sc5', this)" href="javascript:void(0)"><span>Credits &amp; History</span></a></li>
+  <li> <a onClick="expandcontent('sc6', this)" href="javascript:void(0)"><span>Test Environment</span></a></li>
+  <li> <a onClick="expandcontent('sc7', this)" href="javascript:void(0)"><span>License</span></a></li>
+</ul>
+</div>
+<br style="clear: both;">
+
+<!--Begin tabcontainer-->
+<div id="tabcontentcontainer">
+
+<!--Begin sc1-->
+<div class="tabcontent" id="sc1" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+
+<h3>PURPOSE</h3>
+<div class="regularlist">
+<p>It's difficult to run a store efficiently without a mechanism for accepting, tracking, and processing returns.</p>
+<p><strong>Return Manager 1.0</strong> Is a return or cancellation management system for Zen Cart to allow your customers or admin to ether cancel or return an individual item from orders. </p>
+<p>Return Manager 1.0 was designed and tested with Zen Cart 1.5.5e only at this time. It should still work for 1.5.4 and up.</p>
+<p>If you are still running an older version of Zen Cart, WHY? Allot of good folks have spent large amount of time upgrading Zen Cart program to better serve there customers! Consider what the legal aspects are for NOT upgrading vs any reason you can come up with. Thus I well not wast my time downgrading the code.</p>
+<p>I would recommended you install and test on a none public facing site before going live! Also that you have some skills in installation of mods! </p>
+<p>I've spent many years coding on a side that some will never see! I code things I can use or make other code work for me! To me, I don't understand why you don't code! So, make sure you describe the problem you're having, explain how to reproduce it, if applicable, explain what you think is causing it, if applicable, and its always nice to give a plausible solution if possible!</p>
+
+</div>
+<div class="regularlist">
+<ul>
+  <div class="boldemphasis">
+    <li>There will be no support provided for Zen Cart 1.3.9 or less.</li>
+</div>
+ <li><b> READ EVERYTHING IN THIS README BEFORE YOU BEGIN </b></li>
+</ul>
+</div>	
+
+
+<p>After following the installation instructions (and any additional instructions as needed), it is very strongly recommended that you read through the ENTIRE "<strong>How to Use</strong>" section. There you will find out exactly what <strong>Return Manager</strong> does.</p>
+
+
+<p>Ready to get started? Just follow the installation instructions.</p>
+
+Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthread.php?196995" target="_blank">http://www.zen-cart.com/showthread.php?196995</a> -->
+<br /><br />
+
+</div>
+</div>
+</div>
+<!--End sc1-->
+
+<!--Begin sc2-->
+<div class="tabcontent" id="sc2" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+<h3>INSTALLATION</h3>
+
+<p>There are two folders in the file-set<br />If other versions are created for ZC they well have there own folder</p>
+
+<ul>
+	<li>_docs</li>
+	<li>ZC155e</li>
+</ul>
+
+<div class="boldemphasis">
+<p>*** READ EVERYTHING IN THIS README BEFORE YOU BEGIN ***</p>
+
+<p>***** BACKUP YOUR STORE AND YOUR DATABASE BEFORE YOU BEGIN*****</p>
+
+<p>***** THIS IS NOT AN UPDATE TO ANYTHING *****</p>
+</div>
+
+<fieldset>
+<legend>New Installation For Zen Cart 1.5.5e only!</legend>
+
+<p>Brand New Installation Of Return Manager: </p>
+<ol>
+  <li>Download and Unzip the package contents to a temp directory</li>
+  <li>Change and Rename the <strong>YOUR_ADMIN</strong> inside the <strong>zc155e</strong> folder to match the name of your shop's admin folder name.. Let me repeat
+  this as this is the one step in a module install that most OFTEN gets overlooked/missed: <br /><br />
+  <div class="boldemphasis">Change and Rename the Admin_Folder inside the zc155e folder to match the name of your shop's admin folder name..</div></li>
+  <li>Change and Rename all the <strong>YOUR_TEMPLATE</strong> folder names in the <strong>zc155e/includes</strong> folders to match the name of your template's folder name</li>
+  <li><div class="boldemphasis">Once you renamed folders, rignt click the main zc155e folder and set the folder and file permissions to Read/Write for everyone</div></li>
+<br />
+  <li>Login to your store.</li>
+
+  <li>Upload ALL the files in the <strong>zc155e</strong> folder to your store directory. The directory structure within these folders is like your Zen Cart store's folder structure if you have renamed them correctly. For most FTP clients the directory structure of the /includes directory should be preserved, and the files should "fall" into their proper places. If your FTP client isn't capable of this, you might have to manually place each file according to where they appear in this module.</li>
+
+  <li> Click ANY link in the admin to trigger the auto-installer. This will add the necessary Tables, Fields and setup Return Manager in the Configuration Section.</li>
+
+  </ol>
+</fieldset>
+<legend>Core Zen Cart files Modified:</legend>
+<fieldset>
+
+<p> There are only one core file that has been modified in this mod.  However.. If you are not using the default responsive classic template, you should modify the template files to match your design! Be sure to merge the effected file and not just blindly replace them.</p>
+
+<div class="boldemphasis">IMPORTANT: The files below are used in Return Manager.</div>
+
+<ol>
+<li>YOUR_ADMIN/orders.php <b>Modified core file</b></li>
+
+<br />
+<legend>The files below may not exist in your template.</legend>
+<br />
+<li>YOUR_ADMIN/returns.php</li>
+<li>YOUR_ADMIN/includes/languages/english/extra_definitions/COWOA.php</li>
+<li>YOUR_ADMIN/includes/extra_datafiles/returns.php</li>
+<li>YOUR_ADMIN/includes/functions/extra_functions/returns_functions.php
+<li>YOUR_ADMIN/includes/languages/english/returns.php</li>
+<li>YOUR_ADMIN/includes/languages/english/images/buttons/button_create_return.png</li>
+<li>YOUR_ADMIN/includes/languages/english/images/buttons/button_edit_return.png</li>
+<li>images/banners/OrderStatus.png</li>
+<li>includes/extra_datafiles/order_status_filenames.php</li>
+<li>includes/functions/extra_functions/return_functions.php</li>
+<li>includes/languages/english/extra_definitions/YOUR_TEMPLATE/returns_defines.php</li>
+<li>includes/languages/english/extra_definitions/YOUR_TEMPLATE/order_status.php</li>
+<li>includes/languages/english/html_includes/YOUR_TEMPLATE/define_cancelme.php</li>
+<li>includes/languages/english/html_includes/YOUR_TEMPLATE/define_returns.php</li>
+<li>includes/languages/english/YOUR_TEMPLATE/cancelme.php</li>
+<li>includes/languages/english/YOUR_TEMPLATE/order_status.php</li>
+<li>includes/languages/english/YOUR_TEMPLATE/returns.php</li>
+<li>includes/modules/pages/cancelme/header_php.php</li>
+<li>includes/modules/pages/cancelme/jscript_main.php</li>
+<li>includes/modules/pages/cancelme/on_load_main.js</li>
+<li>includes/modules/pages/order_status/header_php.php</li>
+<li>includes/modules/pages/order_status/jscript_main.php</li>
+<li>includes/modules/pages/returns/header_php.php</li>
+<li>includes/modules/pages/returns/jscript_main.php</li>
+<li>includes/modules/pages/returns/on_load_main.js</li>
+<li>includes/modules/sideboxes/YOUR_TEMPLATE/order_status_sidebox.php</li>
+<li>includes/templates/YOUR_TEMPLATE/css/stylesheet_order_status.css</li>
+<li>includes/templates/YOUR_TEMPLATE/images/TrackOrder.png</li>
+<li>includes/templates/YOUR_TEMPLATE/sideboxes/tpl_order_status_sidebox.php</li>
+<li>includes/templates/YOUR_TEMPLATE/templates/tpl_order_status_default.php</li>
+<li>includes/templates/YOUR_TEMPLATE/templates/tpl_cancelme_default.php</li>
+<li>includes/templates/YOUR_TEMPLATE/templates/tpl_returns_default.php</li>
+</ol>
+</fieldset>
+
+<fieldset>
+<legend>Basic Un-Install Instructions</legend>
+<ol>
+	<li>Remove and replace all the files that were installed by Return Manager with your backed up files. You did make a copy Right?</li>
+	<li>Run the <strong>Uninstall_ReturnManager.sql</strong> using the "SQL Query Executor" tool in the Admin (Tools &gt; Install SQL Patches) to remove the database entries. Do NOT USE PHPMYADMIN!!</li>
+</ol>
+</fieldset>
+</div>
+</div>
+</div>
+<!--End sc2-->
+
+<!--Begin sc3-->
+<div class="tabcontent" id="sc3" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+<h3>HOW TO USE</h3>
+<p>Return Manager three basic ideas:</p>
+<ul>
+  <li>Customer Cancel ordered items - Store side login not required. Customer enters order number and email address for this order. If items have an order status below SHIPPED, then Cancellation is offered per-item!</li>
+  <li>Customer Return ordered items - Store side login not required. Customer enters order number and email address for this order. If items have an order status as SHIPPED or DELIVERED and within your return set days, then Return is offered per-item! An RMA number is issued for returns.</li>
+  <li>Admin Return/Cancel - Button in orders will allow admin to create an return or cancel for any item within this order.</li>
+</ul>  
+<p>Return Manager is based on simple rules, make it as easy as possible for customers or me to return/cancel items on a order! I didn't want to disturbed the order recored. Other programs work grate for that like Edit Orders.  I wanted something that I could use along with existing mods so I'm not going to reproduce what's already done will.</p>
+<p>Return or Cancellations rules! Your store, your rules.. If you do a search about returns you well find some interesting outlooks as to what works and what doesn't work. I tend to believe, the longer your return period, the better things work out. Some things just can't be returned like digital downloads. However, you can see if the item was downloaded or not and decide on refunds.. Order Status also plays into COWAA for digital downloads.</p>
+<p>What better spot for product reviews or testimonial links then the order status page!!</p>
+<fieldset>
+<legend>Return Manager 21 on/off switches, please read!</legend>
+<p>Go to ADMIN-&gt;Configuration-&gt;Return Manager. There are 20 configurations that need to be looked at or set..</p> 
+<ul>
+  <li>Display Name field options set to: 0 = Display as Optional, 1 = Display as Required, 2 = Do not Display</li>
+  <li>Display Reason Text Area options set to: 0 = Display as Optional, 1 = Display as Required</li>
+  <li>Set Return Action Drop-down List. You can change this list to what your store requires! Your rules!</li>
+  <li>Set Cancel Action Drop-down List. You can change this list to what your store requires! Your rules!</li>
+  <li>Show Store Name, Address and Phone for Returns (ship to) on Returns Page. true=on false=off</li>
+  <li>Show Store Name, Address and Phone for Returns (ship to) on Returns Success Page. true=on false=off</li>
+  <li>Show Different Returns (ship to) Address on Returns Success Page. This is your address where the return well ship to.</li>
+  <li>Show comment notes! true=on false=off (This is the comments admin does in order status order page! Be careful on what you show them.)</li>
+  <li>Standard Define Page options, affects return page. </li>
+  <li>Standard Define Page options, affects cancel page. </li>
+  <li>Admin Registered Customers Only? Only Registered Customers may submit a return request. true=on false=off</li>
+  <li>Admin Update Order Status option. true=on false=off  Update Order Status upon RMA Successful submit. </li>
+  <li>Admin Order Status, The order status assigned when an RMA is submitted. You need to chance this to RMA# Issued</li>
+  <li>Admin Order Status for Delivered Items, The order status assigned when an order is (Complete - Shipped).</li>
+  <li>Admin Order Status for Canceled Items, The order status assigned when an order (Item is Canceled). You need to chance this to Cancel Item</li>
+  <li>Admin Return Grace Period Numeric Number Only! This represents your 30 Day Return Policy or how ever many days you allow a customer to return an item.</li>
+  <li>Admin Update Order Comments option. Update Admin Order Comments upon RMA Success.  true=on false=off</li>
+  <li>Email RMA Grace Period, This tells your customer how many days till the RMA# expires.</li>
+  <li>RMA Divider, This is a divider for the RMA number set (ie.. 1015-5-FSE7D)</li>
+  <li>RMA Key, This is a number of characters to use in the random generator (ie.. 5) is the default number used.</li>
+  <li>Return Manager Version, as with many of my mods, changing the version number reinstalls the SQL.</li>
+</ul>
+<p>That's it you now have Return Manager Installed.. </p>
+<p>One thing to note, Install Edit Orders to farther enhance your store management.</p>
+<p><b>Buttons! What do they do..</b><br />UPDATE Button below the address field, saves the return address to each item entry, red means that the fields are empty and you are looking at the default information.<br />UPDATE Button below the item list, updates the total items in this return or changes the type of return/cancel. Adding a 0 here deletes that item from the return and updates the total fields.<br />SAVE Button below the return total fields. Saves the suggested total return dollars to each item in the return and updates the order status history with the total so its visible on the order or edit order page. </p>
+
+</fieldset>
+<fieldset>
+<legend>Using Return Manager with other templates or Modules</legend>
+<p>This version was only created using the responsive classic template that came with Zen Cart 1.5.5e.. My site has a heavy modified version of responsive_sheffield_blue_1.0 template. The containers used are responsive but may be hard for you to understand..</p>
+<p>The only Zen Cart core file that is modified was the admin orders.php and it is will marked.</p>
+</fieldset>
+
+</div>
+</div>
+</div>
+<!--End sc3-->
+
+<!--Begin sc4-->
+<div class="tabcontent" id="sc4" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+<fieldset>
+<legend>Photos of Responsive Classic Template some from my site installation</legend>
+
+<a href="includes/images/photos/orderstatus_sidebox.png" rel="colorbox" class="nofollow" title="Order Status Sidebox"><img src="includes/images/photos/orderstatus_sidebox.png" alt="Order Status Sidebox" title="Order Status Sidebox" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/orderstatus_mainpage.png" rel="colorbox" class="nofollow" title="Order Status Main Page"><img src="includes/images/photos/orderstatus_mainpage.png" alt="Order Status Main Page" title="Order Status Main Page" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/orderstatus_deliverd_check.png" rel="colorbox" class="nofollow" title="Order Status with Downloads and vertural products"><img src="includes/images/photos/orderstatus_deliverd_check.png" alt="Order Status with Downloads and vertural products" title="Order Status with Downloads and vertural products" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/orderstatus_pending_check.png" rel="colorbox" class="nofollow" title="Order Status with returns"><img src="includes/images/photos/orderstatus_pending_check.png" alt="Order Status with returns" title="Order Status with returns" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/orderstatus_pending_nocheck.png" rel="colorbox" class="nofollow" title="Order Status with selection"><img src="includes/images/photos/orderstatus_pending_nocheck.png" alt="Order Status with selection" title="Order Status with selection" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/orderstatus_processing_download.png" rel="colorbox" class="nofollow" title="Order Status with downloads"><img src="includes/images/photos/orderstatus_processing_download.png" alt="Order Status with downloads" title="Order Status with downloads" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/return_page.png" rel="colorbox" class="nofollow" title="Return item page"><img src="includes/images/photos/return_page.png" alt="Return item page" title="Return item page" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/return_page_expanded.png" rel="colorbox" class="nofollow" title="Return item page with address change"><img src="includes/images/photos/return_page_expanded.png" alt="Return item page with address change" title="Return item page with address change" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/return_sucess.png" rel="colorbox" class="nofollow" title="Return Success page with RMA"><img src="includes/images/photos/return_sucess.png" alt="Return Success page with RMA" title="Return Success page with RMA" width="75" height="75" /></a>&nbsp;&nbsp;
+   
+<a href="includes/images/photos/cancel_page.png" rel="colorbox" class="nofollow" title="Cancel item page"><img src="includes/images/photos/cancel_page.png" alt="Cancel item page" title="Cancel item page" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/orderstatus_cancel.png" rel="colorbox" class="nofollow" title="Order Status with cancel items"><img src="includes/images/photos/orderstatus_cancel.png" alt="MOrder Status with cancel items" title="Order Status with cancel items" width="75" height="75" /></a>&nbsp;&nbsp;  
+
+<a href="includes/images/photos/admin_returnList.png" rel="colorbox" class="nofollow" title="Admin return order list"><img src="includes/images/photos/admin_returnList.png" alt="Admin return order list" title="Admin return order list" width="75" height="75" /></a>&nbsp;&nbsp;
+
+<a href="includes/images/photos/admin_returnPage.png" rel="colorbox" class="nofollow" title="Admin return order page"><img src="includes/images/photos/admin_returnPage.png" alt="Admin return order page" title="Admin return order page" width="75" height="75" /></a>&nbsp;&nbsp; 
+ 
+<div>Just some of what you well see with this mod installed. There is even more page views that I didn't show here. </div>
+</fieldset>
+</div>
+</div>
+</div>
+<!--End sc4-->
+
+    
+<!--Begin sc5-->
+<div class="tabcontent" id="sc5" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+<h3>CREDITS &amp; HISTORY</h3>
+
+<p>Designed for COWAA v1.0<br />
+By davewest</p>
+<fieldset>
+<legend>Zen Return Manager v1.0 - 09/18/2017</legend>
+by davewest 
+<ul>
+    <li>Only support for Zen Cart v1.5.5e</li>
+    <li>In BATA test mode</li>
+</ul>
+</fieldset>
+</div>
+</div>
+</div>
+<!--End sc5-->
+
+<!--Begin sc6-->
+<div class="tabcontent" id="sc6" style="display: block;">
+<div class="textcontent">
+<h3>Test Environment</h3>
+<p><strong>Zen Return Manager v1.0</strong> Was tested on one xampp setup using the same Zen Cart install of a clean v1.5.5e, xampp is running as a standalone install on a Ubuntu 16.04 desktop. A self signed SSL is installed in xampp installation.</p>
+<br />
+<p>XAMPP xampp-linux-x64-7.1.1-0-installer.run</p>
+<p>Server OS: Linux 4.4.0-31-generic<br />
+HTTP Server: Apache/2.4.25 (Unix) OpenSSL/1.0.2j PHP/7.1.1 mod_perl/2.0.8-dev Perl/v5.16.3<br />
+PHP Version: 7.1.1 (Zend: 3.1.0)<br />
+Database: MySQL 5.5.5-10.1.21-MariaDB<br />
+</p>
+</div>
+</div>
+<!--End sc6-->
+
+<!--Begin sc7-->
+<div class="tabcontent" id="sc7" style="display: block;">
+<div class="textcontent">
+<h3>LICENSE</h3>
+<p><strong>Zen Return Manager v1.0</strong> is released under the General Public License 2 (see LICENSE.txt)</p>
+
+<p>Installation of this contribution is done at your own risk. Backup any and all applicable files and database before proceeding. This script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p>
+
+<h2>Backup any and all applicable files and database before proceeding.</h2>
+</div>
+</div>
+<!--End sc7-->
+
+</div>
+<!--end tabcontainer-->
+<script type="text/javascript">document.getElementById('sc2').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc3').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc4').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc5').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc6').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc7').style.display = 'none';</script>
+<script type="text/javascript">ShowTabs()</script>
+<script type="text/javascript">
+// We only show the tab links if JavaScript is available/active.
+<!--
+if (document.getElementById("slidetabsmenu") != null) {
+  document.getElementById('slidetabsmenu').style.display = "block";
+}
+//-->
+</script><br />
+<br />
+</div>
+
+</body></html>
