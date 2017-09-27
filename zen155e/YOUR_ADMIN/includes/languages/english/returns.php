@@ -1,16 +1,14 @@
 <?php
-/**
- * Returns (RMA)
- *
- * Displays information related to a single specific order
- *
- * @package templateSystem
- * @copyright Copyright 2003-2006 Zen Cart Development Team
- * @copyright Portions Copyright 2003 osCommerce
- * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: returns.php 1.0 09/02/2017 davewest $
- */
+/*
+$id author Puddled Internet - http://www.puddled.co.uk
+  email support@puddled.co.uk
+   osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
 
+  Copyright (c) 2002 osCommerce
+
+  Released under the GNU General Public License
+*/
 define('HEADING_TITLE', 'Product Exchange / Return');
 define('HEADING_TITLE_DETAILS', 'Order Details');
 define('HEADING_TITLE_RETURN_DETAILS', 'Product Exchange / Return Details');
@@ -42,12 +40,9 @@ define('TABLE_HEADING_ACTION_REQ', 'Action Requested');
 define('TABLE_HEADING_CUSTOMER_COMMENTS', 'Customer Comments');
 define('TABLE_HEADING_QUANTITY', '');
 
-
-
-
-
-
-
+define('TEXT_REMOVE_WARRING', '<b> Warring: </b> this will remove only the menus and configuration settings!<br /> You must delete all files yourself!');
+define('TEXT_UPDATE_WARRING', '<b> Warring: </b> this will check for updated Returns Manager from Zen Cart Plugin\'s. If one exists, you will still need to download and follow the install/upgrade instructions!');
+define('TEXT_UPDATE_DISCLAMER','<b>Note: </b> We don\'t endorse auto checking by constantly calling to another site<br />We will make it easy for you to do that by clicking this check button, your option not mine.');
 
 define('TABLE_HEADING_PAYMENT_METHOD', 'Payment<br />Shipping');
 define('TABLE_HEADING_ORDERS_ID','Order <br />ID');

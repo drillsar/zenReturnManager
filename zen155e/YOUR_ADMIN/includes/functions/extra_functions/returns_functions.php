@@ -26,7 +26,7 @@
  	$table_name = DB_PREFIX . 'order_return_manager';
  	
     
-if ((!defined ('RA_VERSION')) || (RA_VERSION != $version)) {
+if ((!defined ('RETURN_MANAGER_VERSION')) || (RETURN_MANAGER_VERSION != $version)) {
 
 $configuration = $db->Execute("SELECT configuration_group_id FROM " . TABLE_CONFIGURATION_GROUP . " WHERE configuration_group_title = 'Return Manager' ORDER BY configuration_group_id ASC;");
 
@@ -104,7 +104,7 @@ $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, confi
 
 $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('RMA Key', 'RMAKEY', 5, 'This is a number of charaters to use in the random genarater ie.. 5<br />5 is the default number used.', '".$ra_configuration_id."', 20, NOW(), NOW(), NULL, NULL)");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin Return Manager Version</strong>', 'RA_VERSION', '" . $version . "', 'Return Manager Version',  '".$ra_configuration_id."', 30, NOW(), NOW(), NULL, NULL)");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin Return Manager Version</strong>', 'RETURN_MANAGER_VERSION', '" . $version . "', 'Return Manager Version',  '".$ra_configuration_id."', 30, NOW(), NOW(), NULL, NULL)");
          
 		
 //remove old table data no longer used
@@ -234,5 +234,71 @@ function randomKey($length) {
     }
     return $key;
 }
- 
+
+/**
+ * In Zen Cart versions 1.5.3 on, this function exist so we do not need it here
+ * in admin/functions/plugin_support.php
+ * I do not like auto checks so done using a button if you wanted to be tracked use MS Windoze!
+ * this function checks ZC site for the latest plugin version for the version of ZC you are running
+ * it does not go any where else or send any other info then mod title and current versions.
+ */
+if (!function_exists('plugin_version_check_for_updates')) { 
+  function plugin_version_check_for_updates($plugin_file_id = 0, $version_string_to_compare = '')
+  {
+    if ($plugin_file_id == 0) return FALSE;
+    $new_version_available = FALSE;
+    $lookup_index = 0;
+    $url1 = 'https://plugins.zen-cart.com/versioncheck/'.(int)$plugin_file_id;
+    $url2 = 'https://www.zen-cart.com/versioncheck/'.(int)$plugin_file_id;
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url1);
+    curl_setopt($ch, CURLOPT_VERBOSE, 0);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 9);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 9);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Plugin Version Check [' . (int)$plugin_file_id . '] ' . HTTP_SERVER);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $error = curl_error($ch);
+    $errno = curl_errno($ch);
+
+    if ($error > 0) {
+      trigger_error('CURL error checking plugin versions: ' . $errno . ':' . $error . "\nTrying http instead.");
+      curl_setopt($ch, CURLOPT_URL, str_replace('tps:', 'tp:', $url1));
+      $response = curl_exec($ch);
+      $error = curl_error($ch);
+      $errno = curl_errno($ch);
+    }
+    if ($error > 0) {
+      trigger_error('CURL error checking plugin versions: ' . $errno . ':' . $error . "\nTrying www instead.");
+      curl_setopt($ch, CURLOPT_URL, str_replace('tps:', 'tp:', $url2));
+      $response = curl_exec($ch);
+      $error = curl_error($ch);
+      $errno = curl_errno($ch);
+    }
+    curl_close($ch);
+    if ($error > 0 || $response == '') {
+      trigger_error('CURL error checking plugin versions: ' . $errno . ':' . $error . "\nTrying file_get_contents() instead.");
+      $ctx = stream_context_create(array('http' => array('timeout' => 5)));
+      $response = file_get_contents($url1, null, $ctx);
+      if ($response === false) {
+        trigger_error('file_get_contents() error checking plugin versions.' . "\nTrying http instead.");
+        $response = file_get_contents(str_replace('tps:', 'tp:', $url1), null, $ctx);
+      }
+      if ($response === false) {
+        trigger_error('file_get_contents() error checking plugin versions.' . "\nAborting.");
+        return false;
+      }
+    }
+
+    $data = json_decode($response, true);
+    if (!$data || !is_array($data)) return false;
+    // compare versions
+    if (strcmp($data[$lookup_index]['latest_plugin_version'], $version_string_to_compare) > 0) $new_version_available = TRUE;
+    // check whether present ZC version is compatible with the latest available plugin version
+    if (!in_array('v'. PROJECT_VERSION_MAJOR . '.' . PROJECT_VERSION_MINOR, $data[$lookup_index]['zcversions'])) $new_version_available = FALSE;
+    return ($new_version_available) ? $data[$lookup_index] : FALSE;
+  }
+ }  
 ?>

@@ -139,7 +139,7 @@ if($ratqty == 0) {  /** Delete a return/cancel item if total is zero 0 */
       $price = $currencies->format($product->fields['products_price']);
       $price_raw = $product->fields['products_price'];
       $prodID = $productsID; 
-      $action = 'No reason'; 
+      $retaction = 'No reason'; 
       $reason = 'added by admin for customer'; 
       $autoRMA =  ORDER_STATUS_RMA;  
       $custID = $product->fields['customers_id'];
@@ -150,7 +150,7 @@ if($ratqty == 0) {  /** Delete a return/cancel item if total is zero 0 */
       $rma_number = (string)$oID . RATDIV . (string)$custID . RATDIV . $RMAback; 
       
 
-      $db->Execute("insert into " . TABLE_ORDER_RETURN_MANAGER . " (orders_id, customers_id, orders_status_id, date_added, customers_name, customers_email_address, comments, products_id, products_name, products_price, products_quantity, rma_number, action, rma_type) values ('" . (int)$oID ."', '" . (int)$custID . "', '" . $autoRMA ."', now(), '" . $custname . "', '" . $custemail . "', '" . $reason ."', '" . $prodID ."', '" . $productname ."', '" . $price_raw ."', '" . $ratqty ."', '" . $item ."', '" . $rma_number ."', '" . $action . "', '" . $rmatype . "')");
+      $db->Execute("insert into " . TABLE_ORDER_RETURN_MANAGER . " (orders_id, customers_id, orders_status_id, date_added, customers_name, customers_email_address, comments, products_id, products_name, products_price, products_quantity, rma_number, action, rma_type) values ('" . (int)$oID ."', '" . (int)$custID . "', '" . $autoRMA ."', now(), '" . $custname . "', '" . $custemail . "', '" . $reason ."', '" . $prodID ."', '" . $productname ."', '" . $price_raw ."', '" . $ratqty ."', '" . $item ."', '" . $rma_number ."', '" . $retaction . "', '" . $rmatype . "')");
       
     } 
     
@@ -218,7 +218,9 @@ if($ratqty == 0) {  /** Delete a return/cancel item if total is zero 0 */
           zen_redirect(zen_href_link(FILENAME_RETURNS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
           
         break;
-
+        
+      default:
+       break;
     }
   }
 /************ end switch section ***********/  	  
@@ -307,6 +309,105 @@ function minmax(value, min, max)
 ?>
 <!-- header_eof //-->
 <br />
+<div>
+ <div class="main" ><a href="<?php echo zen_href_link(FILENAME_RETURNS, 'action=mor'); ?>"><?php echo zen_image_button('button_remove.gif', 'Remove Returns Manager'); ?></a> <a href="<?php echo zen_href_link(FILENAME_RETURNS, 'action=ckupdate', 'NONSSL'); ?>"><?php echo zen_image_button('button_check_new_version.gif', 'Update Returns Manager'); ?></a> </div>     
+  </div> 
+  
+<?php if ($action == 'mor') { 
+  $action = '';
+  ?>
+<div class="BMalert"><?php echo TEXT_REMOVE_WARRING; ?>
+<br /> <br />
+<a href="<?php echo zen_href_link(FILENAME_RETURNS); ?>"> <?php echo zen_image_button('button_cancel.gif', IMAGE_CANCEL); ?></a> 
+<a href="<?php echo zen_href_link(FILENAME_RETURNS, 'action=remove', 'NONSSL'); ?>"><?php echo zen_image_button('button_remove.gif', 'Remove Returns Manager'); ?></a>
+
+
+</div>
+  <?php  
+    } elseif ($action == 'ckupdate') { 
+  $action = '';
+  ?>
+<div class="BMalert"><br /> 
+<?php echo TEXT_UPDATE_WARRING; ?>
+<br />
+<?php echo TEXT_UPDATE_DISCLAMER; ?>
+<br /> <br /> 
+       <a href="<?php echo zen_href_link(FILENAME_RETURNS) ?>"><?php echo zen_image_button('button_cancel.gif', IMAGE_CANCEL) ?></a> <a href="<?php echo zen_href_link(FILENAME_RETURNS, 'action=ckupd') ?>"><?php echo zen_image_button('button_check_new_version.gif', 'Check for Updated Returns Manager') ?></a>
+       </div> 
+       
+<?php  }elseif ($action == 'remove') { 
+              $action = '';
+      
+   $categoryid = array();
+	$id_result = $db->Execute("SELECT configuration_group_id FROM ". TABLE_CONFIGURATION_GROUP . " WHERE configuration_group_title = 'Return Manager'");
+	if (!$id_result->EOF) {
+			$categoryid = $id_result->fields;
+			$isit_installed .= 'Return Manager Configuration_Group ID = ' . $categoryid['configuration_group_id']. '<br>';
+			$rm_config_id = $categoryid['configuration_group_id'];
+			// kill config
+			$db->Execute("DELETE FROM ".TABLE_CONFIGURATION." WHERE configuration_group_id = '" . $rm_config_id ."'");
+                        $db->Execute("DELETE FROM ". TABLE_CONFIGURATION_GROUP . " WHERE configuration_group_id = '" . $rm_config_id ."'");
+                        $isit_installed .= 'deleted Return Manager Configuration files!<br />';
+                        // kill admin pages for ZC1.5.x only
+                        if (function_exists('zen_deregister_admin_pages')) {  
+                               zen_deregister_admin_pages('ReturnManager');
+                               zen_deregister_admin_pages('configReturnMan');
+                        $isit_installed .= 'deleted Return Manager Admin Pages!<br />';
+                        }
+
+                      $db->Execute("DELETE FROM " . TABLE_ORDERS_STATUS . " WHERE orders_status_name = 'RMA# Issued' LIMIT 1");
+                      $db->Execute("DELETE FROM " . TABLE_ORDERS_STATUS . " WHERE orders_status_name = 'Cancel Item' LIMIT 1");
+
+if ($sniffer->table_exists(TABLE_ORDER_RETURN_MANAGER)) $db->Execute("DROP TABLE " . TABLE_ORDER_RETURN_MANAGER );
+
+          
+//check for and remove the auto loader page so it wont install again
+  if(file_exists(DIR_FS_ADMIN . DIR_WS_INCLUDES . 'functions/extra_functions/returns_functions.php')) {
+         if(!unlink(DIR_FS_ADMIN . DIR_WS_INCLUDES . 'functions/extra_functions/returns_functions.php')) {
+		$isit_installed .= 'Autoloader deleted<br />';
+	};
+    }
+
+///done 
+     echo $isit_installed . '<br /><br />Return Manager SQL and Menues have been deleted! Please delete all files! ' . ' <a href="' . zen_href_link(FILENAME_DEFAULT) .'"> ' . zen_image_button('button_go.gif', 'Exit this installer') . '</a><br />';
+    exit;
+
+    } else { 
+//not done 
+    $messageStack->add_session('Failed Finding Return Manager Configuration_Group ID!<br />No change made.', 'error');
+    echo $isit_installed . '<br /><br />Read the help to help figure out what went wrong ' . ' <a href="' . zen_href_link(FILENAME_DEFAULT) .'"> ' . zen_image_button('button_go.gif', 'Exit this installer') . '</a><br />';
+    	   
+    }	
+    
+
+
+} elseif ($action == 'ckupd') {
+               $action = '';
+              // die( '<h1>Update Returns manager</h1>');
+        $module_constant = 'RETURN_MANAGER_VERSION'; // This should be a UNIQUE name followed by _VERSION for convention
+	$module_name = "Return Manager"; // This should be a plain English or Other in a user friendly way
+	$zencart_com_plugin_id = 0; // from zencart.com plugins - Leave Zero not to check
+	$current_version = RETURN_MANAGER_VERSION; //this should be the current installed version
+
+  $configuration_group_id = '';
+  $checklinknote = '';
+
+    $config = $db->Execute("SELECT configuration_group_id FROM " . TABLE_CONFIGURATION . " WHERE configuration_key= '" . $module_name . "'");
+    $configuration_group_id = $config->fields['configuration_group_id'];
+
+// Version Checking 
+$new_version_details = plugin_version_check_for_updates($zencart_com_plugin_id, $current_version);
+    if ($new_version_details != FALSE) {
+        echo '<div class="BMalert">Version ' . $new_version_details['latest_plugin_version']. ' of ' . $new_version_details['title'] . ' is available at <a href="' . $new_version_details['link'] . '" target="_blank">[Details]</a>';
+    } else {
+     echo '<div class="BMalert">No New Version for Return Manager is available or ID is set to 0.</div>';
+     
+    }
+//if (file_exists('functions/extra_functions/returns_functions.php')) require_once('functions/extra_functions/returns_functions.php');
+
+ 
+ } //end remove-update  ?>     
+  
 <table class="container-fluid" border="0" width="100%" cellspacing="2" cellpadding="2">
 <!-- body_text //-->
   <tr>
@@ -628,7 +729,7 @@ $ratqty = ($returns->fields['products_quantity'] != '') ? $returns->fields['prod
     <td valign="top" align='right' colspan="8"> 
     <table border="0" cellspacing="0" cellpadding="2">
 <?php  
- /** old order total block  
+ /** order total block  
   * $order->totals array (title, text, value, class)
   * ["title"]=>string(6) "Total:"  
   * ["text"]=>string(7) "$137.39" 
@@ -1043,9 +1144,9 @@ $datetime1 = zen_date_short($oInfo->date_added);
 $now = date('m/d/Y');
 $days_left =  zen_returns_date_diff($datetime1, $now);
 
-        $contents[] = array('text' => TEXT_INFO_DAYS_AFTER . ' <b>' . $days_left . ' Days</b>');
+        $contents[] = array('text' => TEXT_INFO_DAYS_AFTER . ' <b>' . (string)$days_left . ' Days</b>');
 $days_rma = RMA_GRACE_PERIOD  -  $days_left;
-        $contents[] = array('text' => TEXT_INFO_DAYS_RMA_LEFT . ' <b>' . $days_rma . ' Days</b>');     
+        $contents[] = array('text' => TEXT_INFO_DAYS_RMA_LEFT . ' <b>' . (string)$days_rma . ' Days</b>');     
          
         $contents[] = array('text' => '<br />' . TEXT_INFO_PAYMENT_METHOD . ' '  . $oInfo->payment_method);
         $contents[] = array('text' => ENTRY_SHIPPING . ' '  . $oInfo->shipping_method);
