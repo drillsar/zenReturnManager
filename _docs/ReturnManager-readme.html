@@ -178,9 +178,10 @@ Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthr
 
 <fieldset>
 <legend>Basic Un-Install Instructions</legend>
+<p>We use two buttons at the top of the Return Order page.  <img src="includes/images/button_remove.gif" alt="REMOVE" title="REMOVE" /> and <img src="includes/images/button_check_new_version.gif" alt="CHECK FOR UPDATES" title="CHECK FOR UPDATES" />  </p>
 <ol>
-	<li>Remove and replace all the files that were installed by Return Manager with your backed up files. You did make a copy Right?</li>
-	<li>Run the <strong>Uninstall_ReturnManager.sql</strong> using the "SQL Query Executor" tool in the Admin (Tools &gt; Install SQL Patches) to remove the database entries. Do NOT USE PHPMYADMIN!!</li>
+<li><img src="includes/images/button_remove.gif" alt="REMOVE" title="REMOVE" /> This well uninstall the SQL and tables created with Return Manager then deletes the returns_function.php file so it wont reinstall.</li>
+<li><img src="includes/images/button_check_new_version.gif" alt="CHECK FOR UPDATES" title="CHECK FOR UPDATES" />  This well do just that, checks Zen Cart downloads for an updated version of Returns Manager and lets you know ones available.  so you can download it and follow the update instructions.</li>
 </ol>
 </fieldset>
 </div>
@@ -233,6 +234,7 @@ Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthr
 <p><b>Buttons! What do they do..</b><br />UPDATE Button below the address field, saves the return address to each item entry, red means that the fields are empty and you are looking at the default information.<br />UPDATE Button below the item list, updates the total items in this return or changes the type of return/cancel. Adding a 0 here deletes that item from the return and updates the total fields.<br />SAVE Button below the return total fields. Saves the suggested total return dollars to each item in the return and updates the order status history with the total so its visible on the order or edit order page. </p>
 
 </fieldset>
+
 <fieldset>
 <legend>Using Return Manager with other templates or Modules</legend>
 <p>This version was only created using the responsive classic template that came with Zen Cart 1.5.5e.. My site has a heavy modified version of responsive_sheffield_blue_1.0 template. The containers used are responsive but may be hard for you to understand..</p>
