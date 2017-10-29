@@ -9,7 +9,7 @@
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: Integrated COWAA v1.0
- * @version $Id: tpl_order_status.php 1.0 09/02/2017 davewest $
+ * @version $Id: tpl_order_status.php 1.0 10/29/2017 davewest $
  */
  
 /**
@@ -154,7 +154,7 @@ $productis = $db->Execute("select products_type, products_virtual from " . TABLE
  
 if (($productrma->fields['products_id'] != $order->products[$i]['id']) && ($productis->fields['products_virtual'] == 0)) {
  echo zen_draw_checkbox_field('notify[]', $order->products[$i]['id'], false, ' class="checky" id="notify-' . $i . '"') . zen_draw_input_field('Prod_qty[]', $order->products[$i]['qty'], ' class="input-number"  min="1" max="' . $order->products[$i]['qty'] . '"', 'number');
- } elseif ($productis->fields['products_virtual'] == 1) {
+ } elseif (($productis->fields['products_virtual'] == 1) && ($order_status != 'Pending')) {
  echo '<h3><a href="' . zen_href_link(FILENAME_CONTACT_US, '', 'SSL') . '">' . BOX_INFORMATION_CONTACT . '</a></h3>';
  } elseif ($QTYleft >= 1) {
  echo zen_draw_checkbox_field('notify[]', $order->products[$i]['id'], false, ' class="checky" id="notify-' . $i . '"') . zen_draw_input_field('Prod_qty[]', $QTYleft, ' class="input-number"  min="1" max="' . $QTYleft . '"', 'number');
