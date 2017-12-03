@@ -8,7 +8,7 @@
  * @copyright Copyright 2003-2006 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: cancelme.php 1.0 09/02/2017 davewest $
+ * @version $Id: tpl_order_status.php 1.0.1 11/27/2017 davewest $
  */
 
 define('HEADING_TITLE', 'Cancellation Request');
@@ -44,4 +44,6 @@ define('ENTRY_ACTION_DEFAULT', 'Replacement');
 
 define('TEXT_AD_BOX_RETURNS', 'Sorry to hear you want to cancel some or part of your order with us. Please give us some time to process the cancellation and refund you funds. If the item shipped already and we can\'t get the horse pulled back, you may have to return the item! We\'ll contact you if this happens.<br /><br />If you uncheck an item, that item well not be canceled at this time. ');
 
+//button name alts
+define('BUTTON_SEND_ALT', '&#xf1d8; Send Now');
 //EOF

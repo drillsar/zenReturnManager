@@ -8,7 +8,7 @@
  * @copyright Copyright 2003-2006 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: tpl_cancelme_default.php 1.0 09/02/2017 davewest $
+ * @version $Id: tpl_order_status.php 1.0.1 11/27/2017 davewest $
  */
 ?>
 
@@ -128,7 +128,7 @@ switch (RETURN_REASON) {
 
 <br class="clearBoth" />
 
-<div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SUBMIT, '&#xf1d8; Send Now', ' id="postme"'); ?></div>
+<div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SUBMIT, BUTTON_SEND_ALT, ' id="postme"'); ?></div>
 <div class="buttonRow back"><?php echo zen_back_link() . zen_image_button(BUTTON_IMAGE_CANCEL, BUTTON_CANCEL_ALT) . '</a>'; ?></div>
 <?php
   }

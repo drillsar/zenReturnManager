@@ -8,7 +8,7 @@
  * @copyright Copyright 2003-2006 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: returns.php 1.0 09/02/2017 davewest $
+ * @version $Id: tpl_order_status.php 1.0.1 11/27/2017 davewest $
  */
 
 define('HEADING_TITLE', 'Return Authorization Request');
@@ -34,6 +34,7 @@ define('EMAIL_CONTACT', 'For additional information, you may view our Return Pol
 define('EMAIL_SHIPPING_URL_BOF', '');
 define('EMAIL_SHIPPING_URL_EOF', '');
 
+define('TEXT_CURRENT_ADDRESS', 'Current FROM address: ');
 define('ENTRY_NAME', 'Full Name: ');
 define('ENTRY_EMAIL', 'Email Address: ');
 define('ENTRY_TELEPHONE', 'Phone Number: ');
@@ -53,4 +54,7 @@ define('TEXT_SHIPTO_BILLING', 'To existing address');
 define('TEXT_SHIPTO_SHIPPING', 'From a different address ');
 define('TEXT_CREATE_SHIPPING','Your from address is used as your return address if something happens during shipping!');
 define('TEXT_SETUP_SHIPPING', 'Add a different from address now instead of your existing address on this order!');
+
+//button name alts
+define('BUTTON_SEND_ALT', '&#xf1d8; Send Now');
 //EOF

@@ -23,7 +23,6 @@
 <script language="javascript" src="includes/general.js" type="text/javascript"></script>
 <script language="javascript" type="text/javascript"><!--
 
-
 function popupWindow(url) {
   window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=550,height=650,screenX=150,screenY=100,top=100,left=150')
 }

@@ -9,23 +9,20 @@ $EMAIL_COMMON_CSS
 </style>
 </head>
 
-<body>
-<div class="header" id="BoxDefault">
+<body id="default">
+<div class="holder">
 
-<!-- Header Section -->
-<div class="header boxcontainer"> 
-<section>
+  <!-- Header Section -->
+  <div class="header">
     <img src="$EMAIL_LOGO_FILE" alt="$EMAIL_LOGO_ALT_TEXT" title="$EMAIL_LOGO_ALT_TEXT" width="$EMAIL_LOGO_WIDTH" height="$EMAIL_LOGO_HEIGHT" border="0" />
-</section>
-<section>
-<h2> $EXTRA_HEADER_INFO<br />Cancel/Return</h2>
-</section>
+$EXTRA_HEADER_INFO<br />Cancel/Return
 </div>
 
 
   <!-- Content Section -->
   <div class="content">
     <div class="content-line">Hello $EMAIL_NAME</div>
+    <div>$EMAIL_SUBJECT</div>
     <div class="content-line">$EMAIL_MESSAGE_HTML</div>
   </div>
 
@@ -35,11 +32,11 @@ $EMAIL_COMMON_CSS
     <div class="copyright">$EMAIL_FOOTER_COPYRIGHT</div>
   </div>
 
+</div>
 <div class="disclaimer">
   <div class="disclaimer1">$EMAIL_DISCLAIMER</div>
   <div class="disclaimer2">$EMAIL_SPAM_DISCLAIMER</div>
 </div>
 $EXTRA_INFO
-</div>
 </body>
 </html>

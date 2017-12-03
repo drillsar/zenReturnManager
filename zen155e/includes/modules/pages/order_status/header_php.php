@@ -8,12 +8,20 @@
  * @copyright Copyright 2003-2006 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: header_php.php 1.0 09/02/2017 davewest $
+ * @version $Id: header_php.php 1.0.1 11/27/2017 davewest $
  */
  // abuse deterrents like spam from tell-a-freand
 define('ORDER_STATUS_THROTTLE_TIMER', 1); // can't do another more frequently than this many seconds 60
 // This should be first line of the script:
 $zco_notifier->notify('NOTIFY_HEADER_START_ORDER_STATUS');
+
+if (REGISTERED_RETURN == 'true'){
+  if (!$_SESSION['customer_id']) {
+    $_SESSION['navigation']->set_snapshot();
+    $messageStack->add_session('login', TEXT_RETURN_REQUEST_INTRO, 'warning');
+    zen_redirect(zen_href_link(FILENAME_LOGIN, '', 'SSL'));
+  }
+}
 
 //log on users should not have to enter a email address
 if ($_SESSION['customer_id']) {
@@ -112,15 +120,17 @@ $order_status = $statuses->fields['orders_status_name'];
    $flag_rma = $statuses->fields['rma_number'];
    $custorder_id = $customer_info->fields['customers_id'];
    
-
-   
- if (($order_status == 'Pending') || ($order_status == 'Processing') || ($order_status == 'Cancel Item'))  {
+if (KILL_CANCEL == 'true') {
+   $killreturns = false;
+   $docancel = false;   
+ }elseif (($order_status == 'Pending') || ($order_status == 'Processing') || ($order_status == 'Cancel Item'))  {
    $killreturns = true;
    $docancel = true;
  }else{
    $killreturns = false;
    $docancel = false;
  }
+
 if (REGISTERED_RETURN == 'true')  {
     $killreturns = true;
     }

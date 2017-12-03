@@ -13,4 +13,6 @@
 
 // this is used to display the text link in the "information" or other sidebox
 define('BOX_INFORMATION_ORDER_STATUS', 'Order Status');
+define('TEXT_RETURN_REQUEST_INTRO', 'To submit a Return Authorization Request, please login to your account or lookup the order for which you have items to return.');
+
 // eof

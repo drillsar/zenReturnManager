@@ -2,12 +2,12 @@
 /**
  * Returns (RMA)
  *
- * Displays information related to a single specific order
+ * Zen Returns Manager 
  *
  * @copyright Copyright 2003-2006 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: returns.php 1.0 09/02/2017 davewest $
+ * @version $Id: returns.php 1.0.1 11/27/2017 davewest $
  */
 
 require('includes/application_top.php');
@@ -45,9 +45,12 @@ $action = (isset($_GET['action']) ? $_GET['action'] : '');
   } elseif (isset($_GET['oID'])) {
     $oID = zen_db_prepare_input(trim($_GET['oID']));
   }
+
+  $killButton = 'false';
    if ($action != 'create_new' && !isset($_GET['oID'])) {
    //existing returns exist so edit them
   $return_exists = false;
+
   if (isset($_GET['rID']) && trim($_GET['rID']) == '') unset($_GET['rID']);
   if ($action == 'edit' && !isset($_GET['rID'])) $action = '';
 
@@ -58,8 +61,7 @@ $action = (isset($_GET['action']) ? $_GET['action'] : '');
     $rID = zen_db_prepare_input(trim($_GET['rID']));
   }
   if ($rID) {
-    $returns = $db->Execute("select return_id from " . TABLE_ORDER_RETURN_MANAGER . "
-                              where return_id = '" . (int)$rID . "'");
+    $returns = $db->Execute("select return_id from " . TABLE_ORDER_RETURN_MANAGER . " where return_id = '" . (int)$rID . "'");
     $return_exists = true;
     if ($returns->RecordCount() <= 0) {
       $return_exists = false;
@@ -67,27 +69,22 @@ $action = (isset($_GET['action']) ? $_GET['action'] : '');
       zen_redirect(zen_href_link(FILENAME_RETURNS, zen_get_all_get_params(array('rID', 'action')), 'NONSSL'));
     }
   } 
- } else { //take orderID and do edit, this lets admin create returns for a order from orders.php
+ } else{ //take orderID and do edit, this lets admin create returns for a order from orders.php
   $return_exists = true;
   $createNew = true;
-  if($action != 'editqty') $action = 'edit';
-  
+  if($action == 'create_new') $killButton = 'true';
+  if($action == 'editqty') $killButton = 'false';
+  if($action == 'create_new') $action = 'edit';
+ 
  }
   
 /**** start switch section ****************/  
   if (zen_not_null($action) && $return_exists == true) {
     switch ($action) {
    
-      case 'create_new':  
-      //we should never get here, trap for walkarounds
-      $messageStack->add_session(ERROR_ORDER_DOES_NOT_EXIST , 'error');
-      zen_redirect(zen_href_link(FILENAME_RETURNS, '', 'NONSSL'));
-        break;
-
       case 'editqty':  
       $rID ; //current return ID is still active
-      $oID = $_POST['oID'];
-      
+      $oID = $_POST['oID'];    
  //return_products[] ratProd_id[] 
 $howmany = count($_POST['return_products']);  //number of products in order
 $y = 0;
@@ -150,7 +147,7 @@ if($ratqty == 0) {  /** Delete a return/cancel item if total is zero 0 */
       $rma_number = (string)$oID . RATDIV . (string)$custID . RATDIV . $RMAback; 
       
 
-      $db->Execute("insert into " . TABLE_ORDER_RETURN_MANAGER . " (orders_id, customers_id, orders_status_id, date_added, customers_name, customers_email_address, comments, products_id, products_name, products_price, products_quantity, rma_number, action, rma_type) values ('" . (int)$oID ."', '" . (int)$custID . "', '" . $autoRMA ."', now(), '" . $custname . "', '" . $custemail . "', '" . $reason ."', '" . $prodID ."', '" . $productname ."', '" . $price_raw ."', '" . $ratqty ."', '" . $item ."', '" . $rma_number ."', '" . $retaction . "', '" . $rmatype . "')");
+      $db->Execute("insert into " . TABLE_ORDER_RETURN_MANAGER . " (orders_id, customers_id, orders_status_id, date_added, customers_name, customers_email_address, comments, products_id, products_name, products_price, products_quantity, rma_number, action, rma_type) values ('" . (int)$oID ."', '" . (int)$custID . "', '" . $autoRMA ."', now(), '" . $custname . "', '" . $custemail . "', '" . $reason ."', '" . $prodID ."', '" . $productname ."', '" . $price_raw ."', '" . $ratqty ."', '" . $rma_number ."', '" . $retaction . "', '" . $rmatype . "')");
       
     } 
     
@@ -168,7 +165,15 @@ if($ratqty == 0) {  /** Delete a return/cancel item if total is zero 0 */
           
           $oID = $_POST['oID'];
             $returns = $db->Execute("select return_id from " . TABLE_ORDER_RETURN_MANAGER . " where orders_id = '" . (int)$oID . "'");
-            $rtnTotal = zen_db_prepare_input($_POST['ratDog']);
+            
+            //finOpen,finTAX,finRestock,finShipping,finCOD,finLowOrder,ratDog
+            $rtnTotal = zen_db_prepare_input($_POST['finOpen']) . ',' . 
+                        zen_db_prepare_input($_POST['finTAX']) . ',' . 
+                        zen_db_prepare_input($_POST['finRestock']) . ',' . 
+                        zen_db_prepare_input($_POST['finShipping']) . ',' . 
+                        zen_db_prepare_input($_POST['finCOD']) . ',' . 
+                        zen_db_prepare_input($_POST['finLowOrder']) . ',' . 
+                        zen_db_prepare_input($_POST['ratDog']);
 
               while (!$returns->EOF) {
               $ratID = $returns->fields['return_id'];     
@@ -177,7 +182,7 @@ if($ratqty == 0) {  /** Delete a return/cancel item if total is zero 0 */
                }
                
                //add to order history so return value shows on the order page
-               $comments = 'Return value for this order is ' . $rtnTotal;
+               $comments = TEXT_RETURN_LINE . zen_db_prepare_input($_POST['ratDog']);
                $db->Execute("insert into " . TABLE_ORDERS_STATUS_HISTORY . " (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', 4, now(), -1, '" . $comments . "')");
                
             $messageStack->add_session('Return Total value saved.', 'success');
@@ -188,7 +193,7 @@ if($ratqty == 0) {  /** Delete a return/cancel item if total is zero 0 */
       case 'rataddress':  
            $oID = $_POST['oID'];
             $returns = $db->Execute("select return_id from " . TABLE_ORDER_RETURN_MANAGER . " where orders_id = '" . (int)$oID . "'");
-            
+           
           $update_name  = zen_db_prepare_input(trim($_POST['update_name']));
           $update_telephone  = zen_db_prepare_input(trim($_POST['update_telephone']));
           $update_street_address  = zen_db_prepare_input(trim($_POST['update_street_address']));
@@ -214,10 +219,99 @@ if($ratqty == 0) {  /** Delete a return/cancel item if total is zero 0 */
               $returns->MoveNext();
                } 
                
+               
            $messageStack->add_session('Return address saved.', 'success');
           zen_redirect(zen_href_link(FILENAME_RETURNS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
           
         break;
+      
+      case 'sendRMA': 
+            if (isset($_POST['oID'])) {
+              $oID = zen_db_prepare_input(trim($_POST['oID']));
+            } elseif (isset($_GET['oID'])) {
+              $oID = zen_db_prepare_input(trim($_GET['oID']));
+            }
+            
+           $returns = $db->Execute("select * from " . TABLE_ORDER_RETURN_MANAGER . " where orders_id = '" . (int)$oID . "'");
+           
+//customers_id, orders_status_id, date_added, comments, rma_type, return_value            
+          $name  = $returns->fields['customers_name'];
+          $telephone  = $returns->fields['return_telephone'];
+          $email_address  = $returns->fields['customers_email_address'];
+          $orderID  = (string)$returns->fields['orders_id'];
+          
+          //set a variable to display address used in shipping this order to customer
+          $dogorder = "\n" . $returns->fields['return_street_address'] . "\n<br />" . 
+                      $returns->fields['return_city'] . "\n<br />" . 
+                      $returns->fields['return_state'] . "\n<br />" . 
+                      $returns->fields['return_postcode'] . "\n<br />" . 
+                      $returns->fields['return_country'] . "\n";
+
+
+
+
+   //get and setup products in this return.
+$howmany = $returns->RecordCount();
+$y = 0;
+
+  // Loop to get the values of individual products.
+while(!$returns->EOF) {
+
+     $proqty = $returns->fields['products_quantity'];
+     $productname = $returns->fields['products_name'];
+     $price = $currencies->format($returns->fields['products_price']);
+     $action = $returns->fields['action'];
+     $RMA = $returns->fields['rma_number'];
+
+$email_item[$y] = "\n" . "<br />Item Name: " . $productname . "\n" .
+              "<br />Item Price Each: " . $price . "\n" .
+              "<br />Returning: " . $proqty . "\n" . 
+              "<br />Action: " . $action . "\n" .
+              "<br />RMA Number: " . $RMA . "\n<br />";
+
+ $y++;
+ $returns->MoveNext();
+    } //end while
+      	
+         	$send_to_email = EMAIL_FROM;
+		$send_to_name =  STORE_NAME;
+		
+   
+    // Prepare Text-only portion of message
+    $address_message = 
+OFFICE_SENT_TO . $name . "\n<br />" . 
+OFFICE_EMAIL .  $email_address . "\n<br />" .
+ENTRY_TELEPHONE . $telephone . "\n<br />" .
+ORDER_NO . $orderID . "\n<br />" .
+EMAIL_FROM_ADDRESS . $dogorder . "\n<br />";
+
+$howmany = count($email_item);
+for ($i=0, $n=$howmany; $i<$n; $i++) {
+$item_list .= $email_item[$i];
+}
+
+      $email_subject = EMAIL_TEXT_SUBJECT;
+      $email_text .= EMAIL_TEXT;
+      $email_text .= EMAIL_CONTACT ;
+      $text_message = $email_text . "\n" . $address_message . "\n" . $item_list;
+	
+        // Prepare HTML-portion of message
+      $html_msg['EMAIL_NAME'] = $name;
+      $html_msg['EMAIL_MESSAGE_HTML'] = $email_text . "<br />" . EMAIL_SEPARATOR . "<br />" . $address_message . "<br />" . EMAIL_SEPARATOR . "<br />" . $item_list;
+      $html_msg['EXTRA_INFO'] = '';
+	 
+
+ // Send message
+//customer email
+ zen_mail($name, $email_address, $email_subject, $text_message, STORE_OWNER, EMAIL_FROM, $html_msg, 'returns');
+
+//Store owner email
+if (ADMIN_EMAIL_COPY == 'true') {
+   zen_mail(STORE_OWNER, EMAIL_FROM, EMAIL_TEXT_SUBJECT, $text_message, $name, $email_address, $html_msg, 'returns');
+}
+         $messageStack->add_session(TEXT_SUCCESS_EMAIL, 'success');
+         zen_redirect(zen_href_link(FILENAME_RETURNS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
+       break;
         
       default:
        break;
@@ -383,10 +477,10 @@ if ($sniffer->table_exists(TABLE_ORDER_RETURN_MANAGER)) $db->Execute("DROP TABLE
 
 } elseif ($action == 'ckupd') {
                $action = '';
-              // die( '<h1>Update Returns manager</h1>');
+           
         $module_constant = 'RETURN_MANAGER_VERSION'; // This should be a UNIQUE name followed by _VERSION for convention
-	$module_name = "Return Manager"; // This should be a plain English or Other in a user friendly way
-	$zencart_com_plugin_id = 0; // from zencart.com plugins - Leave Zero not to check
+	$module_name = "Zen Return Manager v1.0"; // This should be a plain English or Other in a user friendly way
+	$zencart_com_plugin_id = 2170; // from zencart.com plugins - Leave Zero not to check
 	$current_version = RETURN_MANAGER_VERSION; //this should be the current installed version
 
   $configuration_group_id = '';
@@ -403,15 +497,12 @@ $new_version_details = plugin_version_check_for_updates($zencart_com_plugin_id, 
      echo '<div class="BMalert">No New Version for Return Manager is available or ID is set to 0.</div>';
      
     }
-//if (file_exists('functions/extra_functions/returns_functions.php')) require_once('functions/extra_functions/returns_functions.php');
-
- 
  } //end remove-update  ?>     
   
 <table class="container-fluid" border="0" width="100%" cellspacing="2" cellpadding="2">
 <!-- body_text //-->
   <tr>
-    <td class="pageHeading"><?php echo ($action == 'edit' && $return_exists) ? HEADING_TITLE_DETAILS : HEADING_TITLE; ?></td>
+    <td class="pageHeading"><?php echo ($action == 'edit' && $return_exists) ? HEADING_TITLE_DETAILS : HEADING_TITLE; ?> </td>
   </tr>
 
 <?php $order_list_button = '<button type="button" class="btn btn-default" onclick="window.location.href=\'' . zen_href_link(FILENAME_RETURNS) . '\'"><i class="fa fa-th-list" aria-hidden="true"></i> ' . BUTTON_TO_LIST . '</button>'; //FILENAME_ORDERS  ?>
@@ -423,8 +514,13 @@ $new_version_details = plugin_version_check_for_updates($zencart_com_plugin_id, 
     if(!$createNew) {
     $returns = $db->Execute("select * from " . TABLE_ORDER_RETURN_MANAGER . " where return_id = '" . (int)$rID . "'");
     $oID = $returns->fields['orders_id'];     
+    }else{
+       $returns = $db->Execute("select * from " . TABLE_ORDER_RETURN_MANAGER . " where orders_id = '" . (int)$oID . "' LIMIT 1"); 
     }
-                         
+    
+    //finOpen,finTAX,finRestock,finShipping,finCOD,finLowOrder,ratDog   $0.00,$0.00,$20.00,$10.00,$0.00,$0.00,$80.00
+   list($finOpen,$finTAX,$finRestock,$finShipping,$finCOD,$finLowOrder,$ratDog) = explode(",", $returns->fields['return_value']);
+
     $order = new order($oID);
     //$zco_notifier->notify('NOTIFY_ADMIN_ORDERS_EDIT_BEGIN', $oID, $order);
     if ($order->info['payment_module_code']) {
@@ -495,7 +591,7 @@ $new_version_details = plugin_version_check_for_updates($zencart_com_plugin_id, 
                 <td class="main"><?php echo '<a href="' . zen_href_link(FILENAME_CUSTOMERS, 'search=' . $order->customer['email_address'], 'SSL') . '" . >' . TEXT_CUSTOMER_LOOKUP . '</a>'; ?></td>
               </tr>
             </table></td>
-            <td valign="top">
+            <td valign="top">       
             <table width="96%" border="0" cellspacing="0" cellpadding="2">
               <tr>
                 <td class="main" valign="top" width="25%"><strong><?php echo 'Return ' . ENTRY_SHIPPING_ADDRESS; ?></strong></td>
@@ -580,8 +676,10 @@ $new_version_details = plugin_version_check_for_updates($zencart_com_plugin_id, 
                   </td>
                 </tr>  
                 <tr>
-                  <td class="main" align="right"><strong><span style="color:red;">If Red! </span> Please Update!</strong> </td>
-                  <td class="main" >&nbsp;&nbsp;&nbsp;<?php echo zen_image_submit('button_update.gif', IMAGE_UPDATE); ?></form></td>
+                  <td class="main" align="right"><strong><?php echo TEXT_UPDATE_FIRST; ?></strong> </td>
+                  <td class="main" >&nbsp;&nbsp;&nbsp;<?php echo ($killButton == 'false') ? zen_image_submit('button_update.gif', IMAGE_UPDATE)  : TEXT_CREATE_FIRST;  ?>
+                 </form>
+                 </td>
                 </tr> 
                 </table>              
                 </td>
@@ -626,12 +724,12 @@ $new_version_details = plugin_version_check_for_updates($zencart_com_plugin_id, 
         <td class="dataTableHeadingContent" colspan="2" width="30%"><?php echo TABLE_HEADING_PRODUCTS; ?></td>
         <td class="dataTableHeadingContent" align="center" width="5%"><?php echo TABLE_HEADING_PRODUCTS_MODEL; ?></td>
         <td class="dataTableHeadingContent" align="center" width="10%""><?php echo TABLE_HEADING_RMA_NUMBER; ?></td>
-        <td class="dataTableHeadingContent" align="center" width="5%""><?php echo 'Order Qunty'; ?></td>
+        <td class="dataTableHeadingContent" align="center" width="5%""><?php echo TABLE_HEADING_QTY; ?></td>
         <td class="dataTableHeadingContent" align="center" width="10%"><?php echo TABLE_HEADING_UNIT_PRICE; ?></td>
-        <td class="dataTableHeadingContent" align="center" width="10%""><?php echo 'Return | Cancel'; ?></td>
+        <td class="dataTableHeadingContent" align="center" width="10%""><?php echo TABLE_HEADING_RC; ?></td>
         <td class="dataTableHeadingContent" align="center" width="10%"><?php echo TABLE_HEADING_QUANTITY; ?></td>
-        <td class="dataTableHeadingContent" align="right" width="5%"><?php echo 'New ' . TABLE_HEADING_TOTAL_PRICE; ?></td>
-        <td class="dataTableHeadingContent" align="right" width="5%"><?php echo 'Old ' . TABLE_HEADING_TOTAL_PRICE; ?></td>
+        <td class="dataTableHeadingContent" align="right" width="5%"><?php echo TABLE_HEADING_NEW . TABLE_HEADING_TOTAL_PRICE; ?></td>
+        <td class="dataTableHeadingContent" align="right" width="5%"><?php echo TABLE_HEADING_OLD . TABLE_HEADING_TOTAL_PRICE; ?></td>
       </tr>
     <!-- Begin Products Listings Block -->
 <?php
@@ -758,52 +856,51 @@ $ratqty = ($returns->fields['products_quantity'] != '') ? $returns->fields['prod
             <table align='right' border="0" cellspacing="0" cellpadding="2" width="100%">
             <tr>
             <td>
-            <h3>NOTES:</h3>
             <div><?php echo TEXT_RETURN_NOTES; ?></div>
             </td>              
-           <td align='right'><h3>Edit Totals</h3>
+           <td align='right'><h3><?php echo TITLE_EDIT_TOTALS; ?></h3>
             <table border="0" cellspacing="0" cellpadding="2">
             <!-- returns order total block -->
 
                    <?php //item total ?>
                 <tr>
-                    <td class="main" align="right"><strong><?php echo 'Sub-Total'; ?></strong></td>
+                    <td class="main" align="right"><strong><?php echo TEXT_SUB_TOTALS; ?></strong></td>
                     <td class="main" align="right"><strong><input name="finItemTotal" size="10" value="<?php echo $GLOBALS['currencies']->format($subedittotal); ?>" type="text" id="finItemTotal" readonly /></strong></td>
                    </tr> 
-                   <?php //open box ?>
+                   <?php //open box ?>  
                     <tr>
-                    <td class="main" align="right"><?php echo 'Open'; ?></td>
-                    <td class="main" align="right"><input name="finOpen" size="10" value="<?php echo $GLOBALS['currencies']->format($returns->fields['return_open']); ?>" type="text" id="finOpen" onChange="updatesum(this)" /></td>
+                    <td class="main" align="right"><?php echo TEXT_OPEN_FIELD; ?></td>
+                    <td class="main" align="right"><input name="finOpen" size="10" value="<?php echo ($finOpen == '' ? '0.00' : $finOpen); ?>" type="text" id="finOpen" onChange="updatesum(this)" /></td>
                   </tr>
                   <?php // tax  
                     $newTax = ($subedittotal * ($ratTax / 100)); ?>
                     <tr>
-                     <td align="right" class="main"><?php echo 'Tax @ ' . round($ratTax,1)   . ' %'; ?> </td>
-                    <td class="main" align="right"><input name="finTAX" size="10" value="<?php echo $GLOBALS['currencies']->format($newTax); ?>" type="text" id="finTAX" onChange="updatesum(this)" /></td>
+                     <td align="right" class="main"><?php echo TEXT_TAX_FIELD . round($ratTax,1)   . ' %'; ?> </td>
+                    <td class="main" align="right"><input name="finTAX" size="10" value="<?php echo ($finTAX == '' ? '0.00' : $finTAX); ?>" type="text" id="finTAX" onChange="updatesum(this)" /></td>
                     </tr>
                   <?php // restocking fee  ?>
                     <tr>
-                     <td align="right" class="main"><?php echo 'Restocking Fee'; ?> </td>
-                    <td class="main" align="right"><input name="finRestock" size="10" value="<?php echo $GLOBALS['currencies']->format($returns->fields['return_restock']); ?>" type="text" id="finRestock" onChange="updatesum(this)" /></td>
+                     <td align="right" class="main"><?php echo TEXT_RESTOCK_FEE; ?> </td>
+                    <td class="main" align="right"><input name="finRestock" size="10" value="<?php echo ($finRestock == '' ? '0.00' : $finRestock); ?>" type="text" id="finRestock" onChange="updatesum(this)" /></td>
                     </tr>
                     <?php // shipping fee ?>
                     <tr>
-                    <td align="right"  class="main"><?php echo  'Shipping Fee'; ?> </td>
-                    <td class="main" align="right"><input name="finShipping" size="10" value="<?php echo $GLOBALS['currencies']->format($returns->fields['return_shipping']); ?>" type="text" id="finShipping" onChange="updatesum(this)" /></td>
+                    <td align="right"  class="main"><?php echo  TEXT_SHIPPING_FEE; ?> </td>
+                    <td class="main" align="right"><input name="finShipping" size="10" value="<?php echo ($finShipping == '' ? '0.00' : $finShipping); ?>" type="text" id="finShipping" onChange="updatesum(this)" /></td>
                     </tr>
                     <?php // cod fee  ?>
                     <tr>
-                    <td align="right" class="main"><?php echo 'COD Fee'; ?></td>
-                    <td class="main" align="right"><input name="finCOD" size="10" value="<?php echo $GLOBALS['currencies']->format($returns->fields['return_cod']); ?>" type="text" id="finCOD" onChange="updatesum(this)" /></td>
+                    <td align="right" class="main"><?php echo TEXT_COD_FEE; ?></td>
+                    <td class="main" align="right"><input name="finCOD" size="10" value="<?php echo ($finCOD == '' ? '0.00' : $finCOD); ?>" type="text" id="finCOD" onChange="updatesum(this)" /></td>
                     </tr>
                     <?php  //low order fee  ?>
                     <tr>
-                    <td align="right" class="main"><?php echo 'Low Order Fee'; ?> </td>
-                    <td class="main" align="right"><input name="finLowOrder" size="10" value="<?php echo $GLOBALS['currencies']->format($returns->fields['return_low_order']); ?>" type="text" id="finLowOrder" onChange="updatesum(this)" /></td>
+                    <td align="right" class="main"><?php echo TEXT_LOW_ORDER_FEE; ?> </td>
+                    <td class="main" align="right"><input name="finLowOrder" size="10" value="<?php echo ($finLowOrder == '' ? '0.00' : $finLowOrder); ?>" type="text" id="finLowOrder" onChange="updatesum(this)" /></td>
                     </tr>
                      <?php // total   ?>
                     <tr>
-                 <td class="main" align="right"><strong><?php echo 'Total'; ?></strong></td>
+                 <td class="main" align="right"><strong><?php echo TABLE_HEADING_TOTAL; ?></strong></td>
                  <td class="main" align="right"><strong><input readonly name="finSubTotal" size="10" value="<?php echo $GLOBALS['currencies']->format($returns->fields['return_subtotal']); ?>" id="finSubTotal" /></strong></td>
                   </tr>
                 </table> 
@@ -811,7 +908,7 @@ $ratqty = ($returns->fields['products_quantity'] != '') ? $returns->fields['prod
          
             <td align='right'></td>
             
-         <td align='right'><h3>Return Total</h3>
+         <td align='right'><h3><?php echo TITLE_RETURN; ?></h3>
             <table border="0" cellspacing="0" cellpadding="2">
             <!-- return total block -->  
             <tr>   
@@ -819,18 +916,22 @@ $ratqty = ($returns->fields['products_quantity'] != '') ? $returns->fields['prod
              <td class="main" align="right"><strong><input name="dogOrder" size="10" readonly type="text" value="<?php echo $GLOBALS['currencies']->format($subreturntotal); ?>" id="dogOrder" style="text-align:right;" /></strong> </td>
             </tr>
             <tr>
-            <td class="main" align="right"><strong>-</strong></td>
+            <td class="main" align="right"><strong><?php echo TEXT_LESS_FEES; ?></strong></td>
              <td class="main" align="right"><strong><input name="ratTotal" size="10" readonly value="<?php echo $GLOBALS['currencies']->format($returns->fields['return_subtotal']); ?>" id="ratTotal" style="text-align:right;" /></strong></td>
             </tr>
             <tr>
-            <td class="main" align="right"><strong>Total:</strong></td>
-            <td class="main" align="right"><strong><input name="ratDog" size="10" readonly type="text"  value="<?php echo $returns->fields['return_value']; ?>"  id="ratDog" style="text-align:right;" /> </strong></td>
+            <td class="main" align="right"><strong><?php echo TEXT_REFUND_TOTAL; ?></strong></td>
+            <td class="main" align="right"><strong><input name="ratDog" size="10" readonly type="text"  value="0"  id="ratDog" style="text-align:right;" /> </strong></td>
             </tr>
              <tr>
              <td class="main" align="right"><?php echo zen_draw_hidden_field('oID', $oID); ?></td>
-            <td class="main" align="right"><?php echo zen_image_submit('button_save.gif', 'Save Total Edits'); ?> 
+             <td class="main" align="right">&nbsp;&nbsp;&nbsp;<?php echo ($killButton == 'false') ? zen_image_submit('button_save.gif', BUTTON_SAVE_ALT)  : TEXT_CREATE_FIRST;  ?>
          </form>
-           </td>
+           </td>           
+            </tr>
+            <tr>
+            <td class="main" align="right"><strong><?php echo TEXT_REFUND_PAST_TOTAL; ?></strong></td>
+            <td class="main" align="right"><strong><input name="ratOldDog" size="10" readonly type="text"  value="<?php echo ($ratDog == '' ? '0.00' : $ratDog); ?>"  id="ratOldDog" style="text-align:right;" /> </strong></td>
             </tr>
             </table>
              
@@ -897,7 +998,7 @@ if ($orders_cancel->RecordCount() > 0) {
     } else {
 
         echo '          <tr>' . "\n" .
-             '            <td  class="pageHeading" colspan="5">No Cancels in this order!<br /></td>' . "\n" .
+             '            <td  class="pageHeading" colspan="5">' . TEXT_NO_RETURNS . '<br /></td>' . "\n" .
              '          </tr>' . "\n";
     }
 ?>
@@ -957,7 +1058,7 @@ if ($orders_returns->RecordCount() > 0) {
       }                                    
     } else {
         echo '          <tr>' . "\n" .
-             '            <td  class="pageHeading" colspan="5">No Returns in this order!<br /></td>' . "\n" .
+             '            <td  class="pageHeading" colspan="5">' . TEXT_NO_RETURNS . '<br /></td>' . "\n" .
              '          </tr>' . "\n";
     }
 ?>
@@ -969,7 +1070,7 @@ if ($orders_returns->RecordCount() > 0) {
       </tr>
     
     <tr>
-        <td colspan="2" align="right" class="noprint"><?php echo ' <a href="' . zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action'))) . '">' . zen_image_button('button_orders.gif', IMAGE_ORDERS) . '</a>'; ?></td>
+         <td colspan="0" align="left" class="noprint"><?php echo ' <a href="' . zen_href_link(FILENAME_RETURNS, '&action=sendRMA&oID=' . (string)$oID, 'NONSSL') . '">' . zen_image_button('button_send_mail.gif', 'Email RMA') . '</a>&nbsp;&nbsp;&nbsp; <a href="' . zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action'))) . '">' . zen_image_button('button_orders.gif', IMAGE_ORDERS) . '</a>'; ?></td>
       </tr> 
 <?php
 // check if order has open gv

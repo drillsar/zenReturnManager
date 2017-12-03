@@ -9,7 +9,7 @@
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: Integrated COWAA v1.0
- * @version $Id: tpl_order_status.php 1.0 10/29/2017 davewest $
+ * @version $Id: tpl_order_status.php 1.0.1 11/27/2017 davewest $
  */
  
 /**
@@ -35,7 +35,7 @@ $KILL_PRODUCTS = false;  //false = on true = off
 <div class="ui-grid-r ui-responsive">
 <!-- box ra -->
 <div class="ui-block-ra"><div class="ui-body ui-body-d">
-<?php if(REGISTERED_RETURN == 'false')  { ?>
+
 <?php echo zen_draw_form('order_status', zen_href_link(FILENAME_ORDER_STATUS, 'action=status', 'SSL'), 'post'); ?>
 <legend><?php echo SUB_HEADING_TITLE; ?></legend>
 <div class="margin-bottom-sm"><?php echo SUB_HEADING; ?></div>
@@ -52,19 +52,17 @@ $KILL_PRODUCTS = false;  //false = on true = off
 
 <?php echo zen_draw_input_field('should_be_empty', '', ' size="40" id="CUAS" style="visibility:hidden; display:none;" autocomplete="off"'); ?>
 
-<div class="buttonRow"><?php echo zen_image_submit(BUTTON_IMAGE_CONTINUE, 'FIND ORDER &#xf0a4;'); ?></div>
+<div class="buttonRow"><?php echo zen_image_submit(BUTTON_IMAGE_CONTINUE, BUTTON_FIND_ORDER_ALT); ?></div>
 </form>
 <br />
 <div class="lookuporder"><?php echo TEXT_LOOKUP_INSTRUCTIONS; ?></div>
-<?php }else{ ?>
-<h1 id="orderHistoryHeading">You must have an account and logged in to check on Order Status!</h1>
-<?php } ?>
+
  </div></div>
 
 <!-- box rb -->
 <div class="ui-block-rb"><div class="ui-body ui-body-d">
 
-<?php if($order) { //****************** do order status ***************/ ?>
+<?php if($order) { ?>
 
 <!-- box b -->
 <div class=""><div class="ui-body ui-body-d">
@@ -73,7 +71,7 @@ $KILL_PRODUCTS = false;  //false = on true = off
 <div class="boxcontainer ">
 <aside><?php echo $email_address; ?></aside>
 <aside><?php echo sprintf(HEADING_ORDER_NUMBER, $_POST['order_id']); ?></aside>
-<aside><?php echo ' Number of Items: ' . sizeof($order->products); ?></aside>
+<aside><?php echo TITLE_LINE_ITEMS . sizeof($order->products); ?></aside>
 </div>
 </h2>
 
@@ -81,29 +79,29 @@ $KILL_PRODUCTS = false;  //false = on true = off
 
 <!-- dd -->
 <div class="ui-block-dd"><div class="ui-body ui-body-d">
-<div class="orderHeading"><h2>Order Date</h2></div>
+<div class="orderHeading"><h2><?php echo TEXT_ORDER_DATE; ?></h2></div>
 <br />
 <h2><?php echo zen_date_long($order->info['date_purchased']); ?></h2>
 </div></div>
 
 <!-- ee -->
 <div class="ui-block-ee"><div class="ui-body ui-body-d">
-<div class="orderHeading"><h2>Order Number</h2></div>
+<div class="orderHeading"><h2><?php echo TEXT_ORDER_NUMBER; ?></h2></div>
 <br />
 <h2><?php echo sprintf($_POST['order_id']); ?></h2>
 </div></div>
 
 <!-- ff -->
 <div class="ui-block-ff"><div class="ui-body ui-body-d">
-<div class="orderHeading"><h2>Order Total</h2></div>
+<div class="orderHeading"><h2><?php echo TEXT_ORDER_TOTAL; ?></h2></div>
 <br />
   <?php $i=2; ?>
-<h2><?php echo 'Sub Total: ' . $order->totals[0]['text'] . '<br />Total: ' . $order->totals[2]['text']; ?></h2>
+<h2><?php echo TEXT_ORDER_SUB_TOTAL . $order->totals[0]['text'] . '<br />' . TEXT_TOTAL . $order->totals[2]['text']; ?></h2>
 </div></div>
 
 <!-- gg -->
 <div class="ui-block-gg"><div class="ui-body ui-body-d">
-<div class="orderHeading"><h2>Order Status</h2></div>
+<div class="orderHeading"><h2><?php echo TABLE_HEADING_STATUS_ORDER_STATUS; ?></h2></div>
 <br />
 <h2><?php echo  $order_status; ?></h2>
 </div></div>
@@ -159,7 +157,7 @@ if (($productrma->fields['products_id'] != $order->products[$i]['id']) && ($prod
  } elseif ($QTYleft >= 1) {
  echo zen_draw_checkbox_field('notify[]', $order->products[$i]['id'], false, ' class="checky" id="notify-' . $i . '"') . zen_draw_input_field('Prod_qty[]', $QTYleft, ' class="input-number"  min="1" max="' . $QTYleft . '"', 'number');
  } else {
- echo '<h3>Returned/Canceled<br />Completed</h3>';
+ echo '<h3>' . TEXT_COMPLETED . '</h3>';
  }
 
 } ?>
@@ -190,14 +188,12 @@ if (($productrma->fields['products_id'] != $order->products[$i]['id']) && ($prod
 
 <?php if ($killreturns == false) { ?> 
 <div id="confirmButton" class="buttonrow back">
-<?php echo zen_image_submit(BUTTON_IMAGE_CONTINUE, 'Return Item &#xf25a;', ' id="postme"'); ?>
+<?php echo zen_image_submit(BUTTON_IMAGE_CONTINUE, BUTTON_RETURN_ALT, ' id="postme"'); ?>
 </div> 
 <?php } elseif ($docancel == true) { ?> 
 <div id="confirmButton" class="buttonrow back">
-<?php echo zen_image_submit(BUTTON_IMAGE_CONTINUE, 'Cancel Item &#xf25a;', ' id="postme"'); ?>
+<?php echo zen_image_submit(BUTTON_IMAGE_CONTINUE, BUTTON_CANCEL_ALT, ' id="postme"'); ?>
 </div> 
-<?php } elseif (REGISTERED_RETURN == 'true') { ?>
-<div id="postme" class="buttonrow back"><b>Please Log in for returns.</b></div>
 <?php } ?> 
 <!--<div id="confirmButton" class="buttonrow back"><input id="postme" class="cssButton submit_button button  button_continue" value="Re-Order &#xf25a;" type="submit"></div>-->
 <br /><br />
@@ -240,7 +236,7 @@ $(document).ready(function(){
   <h4><?php echo HEADING_SHIPPING_METHOD; ?></h4>
   <div><?php echo $order->info['shipping_method']; ?></div>
   <?php } else {  ?>
-  <div>Free Shipping</div>
+  <div><?php echo TEXT_FREE_SHIPPING; ?></div>
   <?php
       }
   ?>
@@ -262,7 +258,7 @@ $(document).ready(function(){
 <?php if ((DISPLAY_COMMENTS == 'true') && ($statuses->fields['comments'] != '')) { 
 echo '<div class="lookuporder"><b>' . $statuses->fields['comments'] . '</b></div>';
  } elseif (DISPLAY_ADD_TESTIMONIAL_LINK == 'true') { //from the testimonial mod if installed then it works
- echo '<h2>Leave us your comments <i class="fa fa-arrow-right"></i></h2>';
+ echo '<h2>' . TEXT_TESTIMONIALS . '</h2>';
  }?>
 </div></div>
 
@@ -274,7 +270,7 @@ echo '<div class="lookuporder"><b>' . $statuses->fields['comments'] . '</b></div
 </div>
 <h3><?php echo TEXT_RETURN_CANCEL_INTRO; ?></h3>
 </div></div>
-</div>
+
 <?php }else{  //eof order status ?>
 
 <?php if(COWOA_NOACCOUNT_ONLY != "true") { ?>
@@ -282,33 +278,14 @@ echo '<div class="lookuporder"><b>' . $statuses->fields['comments'] . '</b></div
 <!-- bof login box -->
 <div class="ui-block-ma"><div class="ui-body ui-body-d">
 <fieldset >
-<?php if (!$_SESSION['customer_id'])  { ?>
-<h1 class="lititle"><?php echo HEADING_LOGIN_BOX; ?></h1>
-
-<?php echo zen_draw_form('login', zen_href_link(FILENAME_LOGIN, 'action=process', 'SSL'), 'post', 'id="ninja"'); ?>
-
 <div class="input-group margin-bottom-sm">
-<label class="inputLabel" for="email-address"><?php echo ENTRY_EMAIL_ADDRESS; ?></label><br />
-<?php echo zen_draw_input_field('email_address', '', ' class="form-control" id="email-address" placeholder="dave@addme.com" tabindex="1" spellcheck="false" autocorrect="off" autofocus="true"', 'email'); ?>
-</div>
-
-<div class="input-group margin-bottom-sm">
-<label class="inputLabel" for="password"><?php echo ENTRY_PASSWORD; ?></label><br />
-<?php echo zen_draw_input_field('password', '', 'class="form-control" id="password" tabindex="2" placeholder="Password" autocomplete="off"'); ?> 
-<br /><span style="cursor:pointer;" id="showHide" data-text-swap="Show">Hide</span>
-</div>
-
-<div class="input-group margin-bottom-sm">
-<?php echo '<a  class="important" href="' . zen_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL') . '" tabindex="3">' . TEXT_PASSWORD_FORGOTTEN . '</a>'; ?>
-</div>
-
-<div class="input-group margin-bottom-sm">
-<?php echo zen_image_submit(BUTTON_IMAGE_LOGIN, BUTTON_LOGIN_ALT); ?>
-</div>
-</form>
-<?php }else{ ?>
-<div class="input-group margin-bottom-sm"><h1>Leave us feedback by writing reviews or testimoalys!</h1>
+<?php  if (DISPLAY_ADD_TESTIMONIAL_LINK == 'true') {
+  echo '<h1>' . TEXT_AD_TESTIMONIALS . '</h1><br />';
+  echo '<div class="buttonRow"><br /><a href="' . zen_href_link(FILENAME_TESTIMONIALS_ADD, '', 'SSL') . '">' . zen_image_button(BUTTON_IMAGE_TESTIMONIALS, BUTTON_TESTIMONIALS_ADD_ALT) . '</a></div>';
+ }else{  ?>
+<h1><?php echo TEXT_AD_MAIN_PAGE; ?></h1>
 <?php } ?>
+</div>
 </fieldset>
 </div></div>
 

@@ -29,9 +29,13 @@ Make sure you
 
 Commits
 ==============
-Commits should be in the present tense, and with Title Capitalization. If needed, a body should be on the next line in normal capitalization.
+Commits should be in the present tense, and with Title Capitalization. If needed, a body should be on the next line in normal capitalization. 
 
 Spelling
 ==============
-If there is a typo in the code, pointing it out or fixing it well be acceptable, but some code misspelled words are intentional to make it harder for crackers or hackers or just plan shorthand.  If you never cracked or hack a program, this may sound wired.  Spelling errors in the language files, yes please fix but with the understanding that I expect shop owners to review or edit and add there own idea of life not just copy everyone else.
+If there is a typo in the code, pointing it out or fixing it well be acceptable, but some code misspelled words are intentional to make it harder for crackers or hackers or just plan shorthand.  If you never cracked or hack a program, this may sound wired.  Spelling errors in the language files, yes please fix but with the understanding that I expect shop owners to review or edit and add there own idea of life not just copy everyone else. 
+
+Notes
+=============
+Do not run off and speak in circles! Some do this thinking it makes them sound smarter then they are.. 
 

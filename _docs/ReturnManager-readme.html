@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">  
   <meta http-equiv="content-language" content="en">  
   <meta name="description" content="Zen Return Manager as Return and Cancel manager for Zen Cart 1.5.5e">
-  <title>Zen Return Manager 1.0</title>
+  <title>Zen Return Manager 1.0.1</title>
      
        <script type="text/javascript" src="includes/jscript/jquery-3.1.1.min.js"></script> 
      <script type="text/javascript" src="includes/jscript/jscript_tabs.js"></script>
@@ -27,21 +27,22 @@ jQuery(function($) {
   </head>
   <body>    
 <div id="wrapper">
-<h2>Zen Return Manager 1.0</h2>
+<h2>Zen Return Manager 1.0.1</h2>
 <h3>Designed to work with COWAA can also work without - Check Out With Any Account (COWAA)</h3>
 <!-- Not done yet -->
-<p>Support thread: <a href="http://www.zen-cart.com/showthread.php?" target="_blank">http://www.zen-cart.com/showthread.php</a><br />
-Download link: <a href="https://www.zen-cart.com/downloads.php" target="_blank">https://www.zen-cart.com/downloads.php</a></p>  
+<p>Support thread: <a href="https://www.zen-cart.com/showthread.php?223123-zen-Return-Manager-(Support-thread)" target="_blank">https://www.zen-cart.com/showthread.php?223123-zen-Return-Manager-(Support-thread)</a><br />
+Download link: <a href="https://www.zen-cart.com/downloads.php?do=file&id=2170" target="_blank">https://www.zen-cart.com/downloads.php?do=file&id=2170</a></p>  
 
 <div id="slidetabsmenu" style="display: none;">
 <ul>
   <li> <a onClick="expandcontent('sc1', this)" href="javascript:void(0)"><span>Purpose </span></a></li>
   <li> <a onClick="expandcontent('sc2', this)" href="javascript:void(0)"><span>Installation</span></a></li>
-  <li> <a onClick="expandcontent('sc3', this)" href="javascript:void(0)"><span>How to Use</span></a></li>
-  <li> <a onClick="expandcontent('sc4', this)" href="javascript:void(0)"><span>Photos</span></a></li>
-  <li> <a onClick="expandcontent('sc5', this)" href="javascript:void(0)"><span>Credits &amp; History</span></a></li>
-  <li> <a onClick="expandcontent('sc6', this)" href="javascript:void(0)"><span>Test Environment</span></a></li>
-  <li> <a onClick="expandcontent('sc7', this)" href="javascript:void(0)"><span>License</span></a></li>
+  <li> <a onClick="expandcontent('sc3', this)" href="javascript:void(0)"><span>UpGrade</span></a></li>
+  <li> <a onClick="expandcontent('sc4', this)" href="javascript:void(0)"><span>How to Use</span></a></li>
+  <li> <a onClick="expandcontent('sc5', this)" href="javascript:void(0)"><span>Photos</span></a></li>
+  <li> <a onClick="expandcontent('sc6', this)" href="javascript:void(0)"><span>Credits &amp; History</span></a></li>
+  <li> <a onClick="expandcontent('sc7', this)" href="javascript:void(0)"><span>Test Environment</span></a></li>
+  <li> <a onClick="expandcontent('sc8', this)" href="javascript:void(0)"><span>License</span></a></li>
 </ul>
 </div>
 <br style="clear: both;">
@@ -57,8 +58,8 @@ Download link: <a href="https://www.zen-cart.com/downloads.php" target="_blank">
 <h3>PURPOSE</h3>
 <div class="regularlist">
 <p>It's difficult to run a store efficiently without a mechanism for accepting, tracking, and processing returns.</p>
-<p><strong>Return Manager 1.0</strong> Is a return or cancellation management system for Zen Cart to allow your customers or admin to ether cancel or return an individual item from orders. </p>
-<p>Return Manager 1.0 was designed and tested with Zen Cart 1.5.5e only at this time. It should still work for 1.5.4 and up.</p>
+<p><strong>Return Manager 1.0.1</strong> Is a return or cancellation management system for Zen Cart to allow your customers or admin to ether cancel or return an individual item from orders. </p>
+<p>Return Manager 1.0.1 was designed and tested with Zen Cart 1.5.5e only at this time. It should still work for 1.5.4 and up.</p>
 <p>If you are still running an older version of Zen Cart, WHY? Allot of good folks have spent large amount of time upgrading Zen Cart program to better serve there customers! Consider what the legal aspects are for NOT upgrading vs any reason you can come up with. Thus I well not wast my time downgrading the code.</p>
 <p>I would recommended you install and test on a none public facing site before going live! Also that you have some skills in installation of mods! </p>
 <p>I've spent many years coding on a side that some will never see! I code things I can use or make other code work for me! To me, I don't understand why you don't code! So, make sure you describe the problem you're having, explain how to reproduce it, if applicable, explain what you think is causing it, if applicable, and its always nice to give a plausible solution if possible!</p>
@@ -79,7 +80,7 @@ Download link: <a href="https://www.zen-cart.com/downloads.php" target="_blank">
 
 <p>Ready to get started? Just follow the installation instructions.</p>
 
-Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthread.php?196995" target="_blank">http://www.zen-cart.com/showthread.php?196995</a> -->
+Any questions, just hit the forums:  <a href="https://www.zen-cart.com/showthread.php?223123-zen-Return-Manager-(Support-thread)" target="_blank">https://www.zen-cart.com/showthread.php?223123-zen-Return-Manager-(Support-thread)</a> 
 <br /><br />
 
 </div>
@@ -193,6 +194,31 @@ Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthr
 <div class="tabcontent" id="sc3" style="display: block;">
 <div class="textcontent">
 <div class="regularlist">
+<h3>Up Grade from v1.0 to v1.0.1</h3>
+
+<p>New or edited files are tagged with this current version 1.0.1  All none edited files still have there old version numbers. A program such as Beyond Compare or Meld Diff Viewer can easily detect the difference in files.</p>
+
+<div class="boldemphasis">
+<p>*** Backup your existing database before uploading the admin Function file *****</p>
+</div>
+
+<fieldset>
+<legend>Up Grade Installation For Zen Cart 1.5.5e only!</legend>
+<p>Logged in to admin before this next step!</p>
+<p>Up load edited files to your store folder. Upload and replace returns_functions.php file in admin/includes/functions/extra_functions/</p>
+<p>Open the configuration tab, click on Return Manager and it may blank out the first and second time, do it again and the configuration list should now reflect the new version 1.0.1..</p>
+<p>If there is no errors, you are done with the update.</p>
+
+</fieldset>
+</div>
+</div>
+</div>
+<!--End sc3-->
+
+<!--Begin sc4-->
+<div class="tabcontent" id="sc4" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
 <h3>HOW TO USE</h3>
 <p>Return Manager three basic ideas:</p>
 <ul>
@@ -204,8 +230,8 @@ Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthr
 <p>Return or Cancellations rules! Your store, your rules.. If you do a search about returns you well find some interesting outlooks as to what works and what doesn't work. I tend to believe, the longer your return period, the better things work out. Some things just can't be returned like digital downloads. However, you can see if the item was downloaded or not and decide on refunds.. Order Status also plays into COWAA for digital downloads.</p>
 <p>What better spot for product reviews or testimonial links then the order status page!!</p>
 <fieldset>
-<legend>Return Manager 21 on/off switches, please read!</legend>
-<p>Go to ADMIN-&gt;Configuration-&gt;Return Manager. There are 20 configurations that need to be looked at or set..</p> 
+<legend>Return Manager 24 on/off switches, please read!</legend>
+<p>Go to ADMIN-&gt;Configuration-&gt;Return Manager. There are 20 configurations that need to be looked at or set.. You need to set the two Status lines for returns and cancels.</p> 
 <ul>
   <li>Display Name field options set to: 0 = Display as Optional, 1 = Display as Required, 2 = Do not Display</li>
   <li>Display Reason Text Area options set to: 0 = Display as Optional, 1 = Display as Required</li>
@@ -215,8 +241,9 @@ Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthr
   <li>Show Store Name, Address and Phone for Returns (ship to) on Returns Success Page. true=on false=off</li>
   <li>Show Different Returns (ship to) Address on Returns Success Page. This is your address where the return well ship to.</li>
   <li>Show comment notes! true=on false=off (This is the comments admin does in order status order page! Be careful on what you show them.)</li>
-  <li>Standard Define Page options, affects return page. </li>
-  <li>Standard Define Page options, affects cancel page. </li>
+  <li>Define Page options, affects return page. </li>
+  <li>Define Page options, affects cancel page. </li>
+  <li>Turn off the ability of Cancellations! Only Returns will work.  </li>
   <li>Admin Registered Customers Only? Only Registered Customers may submit a return request. true=on false=off</li>
   <li>Admin Update Order Status option. true=on false=off  Update Order Status upon RMA Successful submit. </li>
   <li>Admin Order Status, The order status assigned when an RMA is submitted. You need to chance this to RMA# Issued</li>
@@ -226,12 +253,14 @@ Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthr
   <li>Admin Update Order Comments option. Update Admin Order Comments upon RMA Success.  true=on false=off</li>
   <li>Email RMA Grace Period, This tells your customer how many days till the RMA# expires.</li>
   <li>RMA Divider, This is a divider for the RMA number set (ie.. 1015-5-FSE7D)</li>
+  <li>Admin Email Copy to admin!  Send an copy of the customer to admin when mailed from the admin button.</li>
+  <li>RMA Divider. This is the divider used in the RMA Key creation.</li>
   <li>RMA Key, This is a number of characters to use in the random generator (ie.. 5) is the default number used.</li>
   <li>Return Manager Version, as with many of my mods, changing the version number reinstalls the SQL.</li>
 </ul>
 <p>That's it you now have Return Manager Installed.. </p>
 <p>One thing to note, Install Edit Orders to farther enhance your store management.</p>
-<p><b>Buttons! What do they do..</b><br />UPDATE Button below the address field, saves the return address to each item entry, red means that the fields are empty and you are looking at the default information.<br />UPDATE Button below the item list, updates the total items in this return or changes the type of return/cancel. Adding a 0 here deletes that item from the return and updates the total fields.<br />SAVE Button below the return total fields. Saves the suggested total return dollars to each item in the return and updates the order status history with the total so its visible on the order or edit order page. </p>
+<p><b>Buttons! What do they do..</b><br />UPDATE Button below the address field, saves the return address to each item entry, red means that the fields are empty and you are looking at the default information.<br />UPDATE Button below the item list, updates the total items in this return or changes the type of return/cancel. Adding a 0 here deletes that item from the return and updates the total fields.<br />SAVE Button below the return total fields. Saves all the edit fields and total return dollars. Than updates the order status history with the total so its visible on the order or edit order page. <br />SEND MAIL Button sends this Return/Cancel information to your customer. You should edit the instructions to reflect your store requirements!!</p>
 
 </fieldset>
 
@@ -244,10 +273,10 @@ Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthr
 </div>
 </div>
 </div>
-<!--End sc3-->
+<!--End sc4-->
 
-<!--Begin sc4-->
-<div class="tabcontent" id="sc4" style="display: block;">
+<!--Begin sc5-->
+<div class="tabcontent" id="sc5" style="display: block;">
 <div class="textcontent">
 <div class="regularlist">
 <fieldset>
@@ -284,17 +313,30 @@ Any questions, just hit the forums:<!-- <a href="http://www.zen-cart.com/showthr
 </div>
 </div>
 </div>
-<!--End sc4-->
+<!--End sc5-->
 
     
-<!--Begin sc5-->
-<div class="tabcontent" id="sc5" style="display: block;">
+<!--Begin sc6-->
+<div class="tabcontent" id="sc6" style="display: block;">
 <div class="textcontent">
 <div class="regularlist">
 <h3>CREDITS &amp; HISTORY</h3>
 
 <p>Designed for COWAA v1.0<br />
 By davewest</p>
+<fieldset>
+<legend>Zen Return Manager v1.0.1 - 11/27/2017</legend>
+by davewest 
+<ul>
+    <li>Fixed. v1.0.1  -- Now it responds as other login require pages and redirects to the login page.  Login box removed from Order Status page, duplicate.</li>
+     <li>Fixed. v1.0.1  -- Removed quick text that never was moved to language defines where spell-check occurs.  Defines updated, language updated to match current code changes. </li>
+     <li>Fixed. v1.0.1  -- Removed missed placed closing DIV tag on the Order Table section.</li>
+     <li>Fixed. v1.0.1  -- Save totals now saves all edited and estimated total to the database for retrieval next time the return is viewed or edited. Minimum in pack to the existing data table by use of an array instead of individual fields.</li>
+     <li>New. v1.0.1  -- Added switch in return configure to turn off cancels. </li>
+     <li>New. v1.0.1  -- Add the ability to send update or new email to customer and admin from the Return Manager page!</li>
+</ul>
+</fieldset>
+
 <fieldset>
 <legend>Zen Return Manager v1.0 - 09/18/2017</legend>
 by davewest 
@@ -306,10 +348,10 @@ by davewest
 </div>
 </div>
 </div>
-<!--End sc5-->
+<!--End sc6-->
 
-<!--Begin sc6-->
-<div class="tabcontent" id="sc6" style="display: block;">
+<!--Begin sc7-->
+<div class="tabcontent" id="sc7" style="display: block;">
 <div class="textcontent">
 <h3>Test Environment</h3>
 <p><strong>Zen Return Manager v1.0</strong> Was tested on one xampp setup using the same Zen Cart install of a clean v1.5.5e, xampp is running as a standalone install on a Ubuntu 16.04 desktop. A self signed SSL is installed in xampp installation.</p>
@@ -322,20 +364,20 @@ Database: MySQL 5.5.5-10.1.21-MariaDB<br />
 </p>
 </div>
 </div>
-<!--End sc6-->
+<!--End sc7-->
 
-<!--Begin sc7-->
-<div class="tabcontent" id="sc7" style="display: block;">
+<!--Begin sc8-->
+<div class="tabcontent" id="sc8" style="display: block;">
 <div class="textcontent">
 <h3>LICENSE</h3>
-<p><strong>Zen Return Manager v1.0</strong> is released under the General Public License 2 (see LICENSE.txt)</p>
+<p><strong>Zen Return Manager v1.0.1</strong> is released under the General Public License 2 (see LICENSE.txt)</p>
 
 <p>Installation of this contribution is done at your own risk. Backup any and all applicable files and database before proceeding. This script is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p>
 
 <h2>Backup any and all applicable files and database before proceeding.</h2>
 </div>
 </div>
-<!--End sc7-->
+<!--End sc8-->
 
 </div>
 <!--end tabcontainer-->
@@ -345,6 +387,7 @@ Database: MySQL 5.5.5-10.1.21-MariaDB<br />
 <script type="text/javascript">document.getElementById('sc5').style.display = 'none';</script>
 <script type="text/javascript">document.getElementById('sc6').style.display = 'none';</script>
 <script type="text/javascript">document.getElementById('sc7').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc8').style.display = 'none';</script>
 <script type="text/javascript">ShowTabs()</script>
 <script type="text/javascript">
 // We only show the tab links if JavaScript is available/active.

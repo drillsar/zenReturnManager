@@ -2,7 +2,7 @@
 /**
  * Returns Manager Install
  * For Zen-Cart 1.5.5
- * Last Updated: 9/11/2017
+ * Last Updated: 11/27/2017
  *
  * @copyright Copyright 2003-2005 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
@@ -20,7 +20,7 @@
 }
 
     // set version
-        $version = '1.0';
+        $version = '1.0.1';
 
     // Set table name
  	$table_name = DB_PREFIX . 'order_return_manager';
@@ -84,25 +84,29 @@ $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, confi
 
 $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('Define Page options', 'DEFINE_CANCELME_STATUS', '1', '(Admin>Tools>Define Pages Editor>define_cancelme.php)<br />Enable the Defined Cancel Item Link/Text?<br />0= Link ON, Define Text OFF<br />1= Link ON, Define Text ON<br />2= Link OFF, Define Text ON<br />3= Link OFF, Define Text OFF', '".$ra_configuration_id."', 10, NOW(), NOW(), NULL, 'zen_cfg_select_option(array(\'0\', \'1\', \'2\', \'3\'),')");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Registered Customers Only?', 'REGISTERED_RETURN', 'false', 'Only Registered Customers may submit a return request', '".$ra_configuration_id."', 11, NULL, NOW(), NULL, 'zen_cfg_select_option(array(''true'', ''false''), ')");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('Turn off the ability of Cancellations!', 'KILL_CANCEL', 'false', 'Turn off the ability of a customer canceling a order! Only Returns will work. <br />OFF=True ON=false', '".$ra_configuration_id."', 11, NOW(), NOW(), NULL, 'zen_cfg_select_option(array(''true'', ''false''), ')");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Update Order Status option', 'ORDER_STATUS_RMA_OPTION', 'true', 'Update <strong>Admin</strong> Order Status upon RMA Success', '".$ra_configuration_id."', 12, NOW(), NOW(), NULL, 'zen_cfg_select_option(array(''true'', ''false''), ')");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Registered Customers Only?', 'REGISTERED_RETURN', 'false', 'Only Registered Customers may submit a return request', '".$ra_configuration_id."', 12, NULL, NOW(), NULL, 'zen_cfg_select_option(array(''true'', ''false''), ')");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Order Status', 'ORDER_STATUS_RMA', '2', 'Number of the order status assigned when an RMA is submitted.', '".$ra_configuration_id."', 13, NOW(), NOW(), 'zen_get_order_status_name', 'zen_cfg_pull_down_order_statuses(')");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Update Order Status option', 'ORDER_STATUS_RMA_OPTION', 'true', 'Update <strong>Admin</strong> Order Status upon RMA Success', '".$ra_configuration_id."', 13, NOW(), NOW(), NULL, 'zen_cfg_select_option(array(''true'', ''false''), ')");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Order Status for Delivered Items', 'ORDER_STATUS_COMPARE', '3', 'Number of the order status assigned when an order is (Complete - Shipped).', '".$ra_configuration_id."', 14, NOW(), NOW(), 'zen_get_order_status_name', 'zen_cfg_pull_down_order_statuses(')");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Order Status for Return Items', 'ORDER_STATUS_RMA', '2', 'Number of the order status assigned when an RMA is submitted.', '".$ra_configuration_id."', 14, NOW(), NOW(), 'zen_get_order_status_name', 'zen_cfg_pull_down_order_statuses(')");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Order Status for Canceled Items', 'ORDER_STATUS_CANCEL', '4', 'Number of the order status assigned when an order (Item is Canceled).', '".$ra_configuration_id."', 15, NOW(), NOW(), 'zen_get_order_status_name', 'zen_cfg_pull_down_order_statuses(')");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Order Status for Delivered Items', 'ORDER_STATUS_COMPARE', '3', 'Number of the order status assigned when an order is (Complete - Shipped).', '".$ra_configuration_id."', 15, NOW(), NOW(), 'zen_get_order_status_name', 'zen_cfg_pull_down_order_statuses(')");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Return Grace Period', 'RETURN_GRACE_PERIOD', '30', '<strong>Numeric Number Only</strong> This represents your <strong>30</strong> Day Return Policy or how ever many days you allow a customer to return an item.', '".$ra_configuration_id."', 16, NOW(), NOW(), NULL, NULL)");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Order Status for Canceled Items', 'ORDER_STATUS_CANCEL', '4', 'Number of the order status assigned when an order (Item is Canceled).', '".$ra_configuration_id."', 16, NOW(), NOW(), 'zen_get_order_status_name', 'zen_cfg_pull_down_order_statuses(')");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Update Order Comments option', 'ORDER_COMMENTS_RMA_OPTION', 'true', 'Update <strong>Admin</strong> Order Comments upon RMA Success',  '".$ra_configuration_id."', 17, NOW(), NOW(), NULL, 'zen_cfg_select_option(array(''true'', ''false''), ')");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Return Grace Period', 'RETURN_GRACE_PERIOD', '30', '<strong>Numeric Number Only</strong> This represents your <strong>30</strong> Day Return Policy or how ever many days you allow a customer to return an item.', '".$ra_configuration_id."', 17, NOW(), NOW(), NULL, NULL)");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Email</strong> RMA Grace Period', 'RMA_GRACE_PERIOD', '15', 'This tells your customer how many days till the RMA# expires.', '".$ra_configuration_id."', 18, NOW(), NOW(), NULL, NULL)");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin</strong> Update Order Comments option', 'ORDER_COMMENTS_RMA_OPTION', 'true', 'Update <strong>Admin</strong> Order Comments upon RMA Success',  '".$ra_configuration_id."', 18, NOW(), NOW(), NULL, 'zen_cfg_select_option(array(''true'', ''false''), ')");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('RMA Divider', 'RATDIV', '-', 'This is a divider for the RMA number set<br />(ie.. 1015-5-FSE7D)', '".$ra_configuration_id."', 19, NOW(), NOW(), NULL, NULL)");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Email</strong> RMA Grace Period', 'RMA_GRACE_PERIOD', '15', 'This tells your customer how many days till the RMA# expires.', '".$ra_configuration_id."', 19, NOW(), NOW(), NULL, NULL)");
 
-$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('RMA Key', 'RMAKEY', 5, 'This is a number of charaters to use in the random genarater ie.. 5<br />5 is the default number used.', '".$ra_configuration_id."', 20, NOW(), NOW(), NULL, NULL)");
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin Email</strong> Copy to admin!', 'ADMIN_EMAIL_COPY', 'true', 'Send a copy of the Admin created email to Store Owner.', '".$ra_configuration_id."', 20, NOW(), NOW(), NULL, 'zen_cfg_select_option(array(''true'', ''false''), ')");
+
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('RMA Divider', 'RATDIV', '-', 'This is a divider for the RMA number set<br />(ie.. 1015-5-FSE7D)', '".$ra_configuration_id."', 21, NOW(), NOW(), NULL, NULL)");
+
+$db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('RMA Key', 'RMAKEY', 5, 'This is a number of charaters to use in the random genarater ie.. 5<br />5 is the default number used.', '".$ra_configuration_id."', 22, NOW(), NOW(), NULL, NULL)");
 
 $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . "(configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('<strong>Admin Return Manager Version</strong>', 'RETURN_MANAGER_VERSION', '" . $version . "', 'Return Manager Version',  '".$ra_configuration_id."', 30, NOW(), NOW(), NULL, NULL)");
          
@@ -129,6 +133,8 @@ $db->Execute("INSERT INTO " . TABLE_ORDERS_STATUS . " (orders_status_id, languag
 
 // return_id, orders_id, customers_id, orders_status_id, date_added, customers_name, customers_email_address, comments, products_id, products_name, products_price, products_quantity, products_num, rma_number, action, rma_type, return_telephone, return_street_address, return_city, return_state, return_postcode, return_country, return_value
 
+//varchar(255) NOT NULL  -- changed from varchar(15) NOT NULL DEFAULT '0.00'
+
 //create new table if not existing already
 if (!$sniffer->table_exists($table_name)) {  
       $result = $db->Execute("CREATE TABLE IF NOT EXISTS " . $table_name ." (
@@ -154,7 +160,7 @@ if (!$sniffer->table_exists($table_name)) {
                              `return_state` varchar(32) DEFAULT NULL,
                              `return_postcode` varchar(10) NOT NULL DEFAULT '',
                              `return_country` varchar(32) NOT NULL DEFAULT '',
-                             `return_value` VARCHAR(15) NOT NULL DEFAULT '0.00',
+                             `return_value` varchar(255) NOT NULL,
                              PRIMARY KEY  (`return_id`))");
  
                               
@@ -166,6 +172,10 @@ if (!$sniffer->table_exists($table_name)) {
 		}
     } else {
     echo $table_name . ' Already exist!<br />';
+   $field_name = 'return_value';
+   $field_type = 'varchar(15)';
+   if ($sniffer->field_type($table_name, $field_name, $field_type)) $db->Execute("ALTER TABLE " . $table_name ." CHANGE `return_value` `return_value` VARCHAR(255) NOT NULL");
+
      }
      
 /********* register Return Manager admin pages for Zen 1.5.x *****************/
